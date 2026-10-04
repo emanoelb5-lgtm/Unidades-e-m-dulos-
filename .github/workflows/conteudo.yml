@@ -1,0 +1,46 @@
+name: Conteúdo • validar catálogo público
+
+on:
+  push:
+    branches: [main]
+    paths: ['content/**', 'tools/validate_catalog.py', '.github/workflows/conteudo.yml']
+  pull_request:
+    paths: ['content/**', 'tools/validate_catalog.py', '.github/workflows/conteudo.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validar lições e preservar IDs publicados
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validar catálogo e continuidade
+        env:
+          BASELINE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: python tools/validate_catalog.py --baseline "$BASELINE"
+      - name: Preparar pacote verificado
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib, json, shutil
+          out=Path('dist');out.mkdir(exist_ok=True)
+          source=Path('content/catalog.json')
+          shutil.copy2(source,out/'VibeCode-conteudo.json')
+          data=json.loads(source.read_text())
+          report={'contentVersion':data['contentVersion'],'units':len(data['units']),'lessons':sum(len(u['lessons']) for u in data['units']),'sha256':hashlib.sha256(source.read_bytes()).hexdigest(),'sourceRepository':'emanoelb5-lgtm/Unidades-e-m-dulos-'}
+          (out/'verificacao.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
+          (out/'SHA256SUMS.txt').write_text(''.join(f'{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.name}\n' for p in sorted(out.iterdir()) if p.is_file()))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vibecode-conteudo-verificado
+          path: dist/
