@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentVersion": 3,
+  "contentVersion": 4,
   "author": "Emanuel Bonfim",
   "modules": [
     {
@@ -4597,6 +4597,2234 @@
             "1.2.30",
             "1.2.31",
             "1.2.32"
+          ]
+        }
+      ],
+      "assessmentVersion": 1
+    },
+    {
+      "id": "1.3",
+      "title": "Arquitetura de computadores",
+      "moduleId": 1,
+      "description": "Do programa armazenado à execução: CPU, ALU, registradores, PC, ciclo de instrução, RAM, ROM, cache, barramentos, entrada/saída, interrupções, DMA e ISA em 32 lições guiadas, com uma CPU de estudo e um projeto de integração.",
+      "lessons": [
+        {
+          "id": "1.3.1",
+          "title": "Um computador é um sistema",
+          "subtitle": "Processar, guardar e comunicar são funções diferentes.",
+          "minutes": 6,
+          "objectives": [
+            "Relacionar CPU, memória, armazenamento e entrada/saída ao percurso de uma informação."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "Nas unidades anteriores, bits representavam informações e circuitos guardavam estado. Agora vamos conectar essas peças. A CPU executa instruções; a memória de trabalho mantém dados e instruções em uso; os dispositivos de entrada/saída permitem comunicação com o mundo. O armazenamento persistente conserva arquivos mesmo quando o aparelho é desligado.\n\nImagine registrar uma temperatura: um sensor produz uma leitura, um controlador a disponibiliza, a CPU executa um cálculo e um dispositivo mostra o resultado. Para conservar um histórico depois de desligar, o programa precisa gravá-lo em armazenamento persistente. Ter um valor na RAM não significa que ele já esteja salvo em um arquivo.\n\nA arquitetura descreve como essas funções se relacionam. O computador pode estar em um gabinete, em um celular ou em um pequeno equipamento de medição."
+            },
+            {
+              "kind": "example",
+              "title": "Uma leitura percorre componentes",
+              "text": "Sensor: fornece o valor 28.\nControlador: disponibiliza a leitura.\nCPU: executa uma comparação.\nRAM: mantém valores de trabalho.\nVisor: apresenta o resultado.\nFlash/SSD: conserva o histórico gravado."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "CPU não é sinônimo de computador inteiro. E memória de trabalho não é sinônimo de armazenamento permanente."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Descreva o caminho de uma tecla pressionada até um texto aparecer na tela. Depois indique o que precisa acontecer para o texto continuar disponível após desligar."
+            }
+          ],
+          "guide": [
+            "Identifique a entrada e seu controlador.",
+            "Separe processamento, memória de trabalho e saída.",
+            "Explique em qual etapa ocorre a gravação persistente."
+          ],
+          "check": {
+            "prompt": "Qual componente conserva um arquivo gravado depois que a energia é desligada?",
+            "choices": [
+              "O armazenamento não volátil, como SSD ou flash.",
+              "Um registrador comum da CPU.",
+              "A RAM volátil.",
+              "A unidade de controle sozinha."
+            ],
+            "correct": 0,
+            "explanation": "Arquivos gravados em armazenamento não volátil podem permanecer sem energia. RAM e registradores de trabalho normalmente não conservam seus valores."
+          }
+        },
+        {
+          "id": "1.3.2",
+          "title": "O programa também ocupa memória",
+          "subtitle": "A ideia de programa armazenado e o modelo de von Neumann.",
+          "minutes": 6,
+          "objectives": [
+            "Explicar por que instruções e dados podem ser representados por bits na memória."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "Um programa armazenado representa suas instruções como informações que a máquina pode buscar. Em vez de refazer fisicamente todas as ligações a cada tarefa, fornecemos outra sequência de instruções compatível com a CPU.\n\nNo modelo de von Neumann estudado aqui, instruções e dados compartilham a memória e o espaço de endereços. A CPU busca uma instrução, identifica sua operação e realiza os acessos necessários aos dados. A memória contém bits; o uso desses bits como instrução ou dado depende do acesso que a máquina realiza.\n\nSepararemos uma região para o programa e outra para os valores de trabalho. Essa separação de uso ajuda a ler o exemplo, mas não transforma a memória em duas tecnologias diferentes. Ela também não concede, sozinha, proteção contra uma escrita no lugar errado."
+            },
+            {
+              "kind": "example",
+              "title": "Uma memória, dois usos",
+              "text": "Exemplo didático:\nEndereços 0 a 23: bytes do programa.\nEndereço 128: primeira entrada numérica.\nEndereço 129: segunda entrada numérica.\nEndereço 130: resultado.\n\nPrograma e dados usam regiões distintas\ndo mesmo espaço de endereços."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "Computadores reais podem separar caminhos e caches de instruções e dados. Não confunda este modelo de estudo com uma descrição completa de todos os chips."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Explique como a mesma CPU pode executar um programa que soma e outro que compara valores. Diga o que muda na memória e o que permanece no hardware."
+            }
+          ],
+          "guide": [
+            "Trate cada instrução como informação codificada.",
+            "Identifique a região do programa e a dos dados.",
+            "Relacione a mudança de tarefa à sequência de instruções."
+          ],
+          "check": {
+            "prompt": "O que caracteriza o modelo de von Neumann apresentado?",
+            "choices": [
+              "Instruções não podem ser armazenadas.",
+              "A memória contém apenas resultados.",
+              "Cada programa exige fabricar uma nova CPU.",
+              "Instruções e dados compartilham memória e espaço de endereços."
+            ],
+            "correct": 3,
+            "explanation": "A ideia central é o programa armazenado, com instruções e dados no mesmo espaço de memória do modelo."
+          }
+        },
+        {
+          "id": "1.3.3",
+          "title": "Endereço não é conteúdo",
+          "subtitle": "Localize um byte antes de interpretar seu valor.",
+          "minutes": 6,
+          "objectives": [
+            "Distinguir o endereço de uma posição de memória do valor armazenado nela."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "Um endereço identifica uma posição dentro de um espaço de memória. Seu conteúdo é o conjunto de bits guardado nessa posição. Saber o número da posição não informa automaticamente o valor que ela contém.\n\nNa nossa CPU de estudo, cada endereço seleciona um byte e existem 256 posições, de 0 a 255. O endereço decimal 128 é 0x80 em hexadecimal. Se essa posição guarda 7, ler a memória no endereço 128 produz 7, não 128. Se a posição seguinte guarda 5, isso não permite concluir o valor das demais.\n\nQuando um valor ocupa vários bytes, é necessário conhecer seu tamanho e a ordem dos bytes. Nesta unidade, as entradas numéricas dos exemplos cabem em um byte, para acompanhar os acessos sem introduzir formatos extras."
+            },
+            {
+              "kind": "example",
+              "title": "Posição e valor lado a lado",
+              "text": "Endereço decimal   Hexadecimal   Conteúdo\n128                0x80          7\n129                0x81          5\n130                0x82          0\n\nLer [128] produz 7.\nEscrever 12 em [130] troca apenas esse byte."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "Os 256 endereços pertencem ao modelo didático. Não são a capacidade de RAM de um celular nem um limite geral das CPUs."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Crie três posições consecutivas com valores diferentes. Leia a segunda, altere a terceira e explique por que endereço e conteúdo são informações distintas."
+            }
+          ],
+          "guide": [
+            "Anote o endereço e o conteúdo em campos separados.",
+            "Converta 128 para 0x80 sem alterar a posição.",
+            "Acompanhe qual conteúdo muda em uma escrita."
+          ],
+          "check": {
+            "prompt": "Se a posição de endereço 129 guarda o valor 5, uma leitura de [129] retorna:",
+            "choices": [
+              "O tamanho total da memória.",
+              "5.",
+              "129.",
+              "128."
+            ],
+            "correct": 1,
+            "explanation": "O endereço escolhe a posição. O valor devolvido é o conteúdo guardado nela."
+          }
+        },
+        {
+          "id": "1.3.4",
+          "title": "CPU, núcleo e chip",
+          "subtitle": "Um sistema pode reunir vários processadores e controladores.",
+          "minutes": 6,
+          "objectives": [
+            "Distinguir núcleo de CPU, processador e sistema em um chip."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "Um núcleo de CPU é uma unidade capaz de executar um fluxo de instruções, com os recursos de processamento correspondentes. Um processador pode reunir vários núcleos. Um sistema em um chip, ou SoC, pode integrar núcleos de CPU, controladores de memória, interfaces de comunicação e outros blocos, como uma GPU.\n\nTer mais núcleos permite executar trabalho em paralelo quando o software e os recursos do sistema permitem essa divisão. Isso não significa que qualquer tarefa individual ficará proporcionalmente mais rápida. Uma etapa que depende da anterior não pode ser livremente distribuída entre núcleos.\n\nNesta unidade acompanharemos um núcleo simples, em ordem, sem execução especulativa. Essa escolha facilita observar o estado antes e depois de cada instrução. É uma aproximação didática, não uma promessa sobre a organização interna de um processador comercial."
+            },
+            {
+              "kind": "example",
+              "title": "Duas tarefas e uma dependência",
+              "text": "Tarefa A: somar uma série de medidas.\nTarefa B: atualizar uma imagem na tela.\nPodem existir partes independentes.\n\nMas calcular uma média depende de obter a soma.\nMais núcleos não eliminam essa dependência."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "Número de núcleos e frequência são informações úteis, mas não bastam para prever o tempo de uma tarefa."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Separe duas atividades de um computador que possam avançar em paralelo e uma sequência em que a segunda etapa dependa do resultado da primeira."
+            }
+          ],
+          "guide": [
+            "Identifique quais atividades são independentes.",
+            "Localize a dependência entre resultados.",
+            "Separe recursos de CPU dos demais blocos do chip."
+          ],
+          "check": {
+            "prompt": "Qual afirmação sobre um SoC é adequada?",
+            "choices": [
+              "Ele pode integrar CPU, controladores e outros blocos no mesmo chip.",
+              "Ele elimina a necessidade de software.",
+              "Ele contém necessariamente só uma ALU.",
+              "Ele torna toda tarefa quatro vezes mais rápida."
+            ],
+            "correct": 0,
+            "explanation": "Um SoC integra componentes de um sistema. A composição exata varia, e o desempenho depende do trabalho e do projeto."
+          }
+        },
+        {
+          "id": "1.3.5",
+          "title": "A unidade de controle coordena",
+          "subtitle": "Os sinais escolhem operações e caminhos dos dados.",
+          "minutes": 6,
+          "objectives": [
+            "Relacionar decodificação, sinais de controle, seleção de caminhos e atualização do estado."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "A unidade de controle organiza as ações necessárias para executar uma instrução. Ela identifica a operação codificada e produz sinais para selecionar fontes, operação da ALU, acessos à memória e registradores que receberão resultados.\n\nPense nas portas, multiplexadores e registradores da unidade 1.2. Um multiplexador escolhe um caminho; um registrador captura um valor quando os sinais e o evento de clock permitem. A unidade de controle coordena essas escolhas ao longo da execução.\n\nPara uma soma entre registradores, ela seleciona os operandos, solicita a operação e autoriza a gravação do resultado. Para guardar um valor na memória, ela precisa organizar outro conjunto de ações. Projetos reais podem gerar controle por circuitos, microcódigo ou uma combinação de mecanismos."
+            },
+            {
+              "kind": "example",
+              "title": "Uma soma precisa de coordenação",
+              "text": "Instrução de estudo: ADD R2, R0, R1\n1. Selecionar R0 e R1 como fontes.\n2. Selecionar soma na ALU.\n3. Habilitar a gravação em R2.\n4. Prosseguir para a próxima instrução.\n\nA operação e os caminhos precisam combinar."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "A unidade de controle não interpreta a intenção de quem escreveu o programa. Ela segue os códigos e as regras da arquitetura."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Compare somar dois registradores com escrever um registrador na memória. Liste quais caminhos e sinais de autorização mudariam."
+            }
+          ],
+          "guide": [
+            "Identifique a operação pedida.",
+            "Escolha as fontes e o destino dos dados.",
+            "Verifique quando o destino pode receber o resultado."
+          ],
+          "check": {
+            "prompt": "Qual é a função central da unidade de controle?",
+            "choices": [
+              "Exibir diretamente todos os pixels.",
+              "Coordenar operações e transferências por sinais de controle.",
+              "Conservar arquivos sem energia.",
+              "Substituir todos os registradores."
+            ],
+            "correct": 1,
+            "explanation": "Ela organiza a execução ao selecionar operações, caminhos e atualizações do estado."
+          }
+        },
+        {
+          "id": "1.3.6",
+          "title": "A ALU transforma os operandos",
+          "subtitle": "Operações aritméticas e lógicas trabalham sobre bits.",
+          "minutes": 6,
+          "objectives": [
+            "Explicar operandos, operação e resultado de uma ALU inteira."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "A unidade lógica e aritmética, ALU, realiza operações como soma, subtração, AND e OR, conforme o projeto. Os valores de entrada são operandos. A seleção de operação determina qual transformação será aplicada aos mesmos bits.\n\nNa CPU de estudo, os registradores de dados têm 8 bits. Uma soma guarda os 8 bits menos significativos do resultado. Assim, 250 + 10 produz 260 matematicamente, mas o resultado armazenado nesse modelo é 4, pois 260 corresponde a 256 + 4. O programa precisa respeitar a representação e tratar o caso conforme sua finalidade.\n\nProcessadores podem ter unidades especializadas para ponto flutuante, vetores e outras operações. Não suponha que qualquer ALU inteira realize diretamente todas as operações matemáticas existentes."
+            },
+            {
+              "kind": "example",
+              "title": "Mesmos operandos, duas operações",
+              "text": "Operandos de 8 bits: 5 e 3.\n5 = 00000101\n3 = 00000011\n\nSoma: 5 + 3 = 8.\nAND bit a bit: 00000001 = 1.\nA operação selecionada muda o resultado."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "A largura e a interpretação dos bits limitam o resultado representável. Carry e overflow com sinal são conceitos diferentes, como na unidade 1.1."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Calcule 7 + 5 e o AND bit a bit de 7 com 5. Depois preveja o resultado guardado para 255 + 1 no nosso modelo de 8 bits."
+            }
+          ],
+          "guide": [
+            "Identifique os dois operandos.",
+            "Aplique a operação escolhida aos bits.",
+            "Confira a largura antes de interpretar o resultado guardado."
+          ],
+          "check": {
+            "prompt": "Na ALU de estudo com resultado de 8 bits, o que é guardado após 255 + 1?",
+            "choices": [
+              "256.",
+              "0.",
+              "1.",
+              "255."
+            ],
+            "correct": 1,
+            "explanation": "A soma é 256, mas seus 8 bits menos significativos são zero. Esse resultado não representa a soma matemática ilimitada."
+          }
+        },
+        {
+          "id": "1.3.7",
+          "title": "Registradores: valores perto da operação",
+          "subtitle": "R0, R1 e R2 guardam operandos e resultados temporários.",
+          "minutes": 6,
+          "objectives": [
+            "Distinguir registradores de dados da memória RAM e acompanhar mudanças de valor."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "Registradores são pequenos elementos de armazenamento usados diretamente pela CPU. Registradores de propósito geral podem conter operandos, resultados e, conforme a arquitetura, endereços. Sua quantidade e largura fazem parte do modelo que o software conhece.\n\nNossa CPU de estudo usa R0, R1, R2 e R3, cada um com 8 bits. Carregar um byte da memória copia seu valor para um registrador; somar registradores pode atualizar outro registrador. A soma, sozinha, não escreve automaticamente seu resultado no endereço de onde veio a entrada.\n\nO nome R0 identifica um registrador neste modelo. Não é o endereço zero da RAM. Outras arquiteturas possuem convenções diferentes; há até registradores cujo valor é fixo. Por isso, leia a definição da ISA antes de presumir como um nome funciona."
+            },
+            {
+              "kind": "example",
+              "title": "Uma cópia não altera sua origem",
+              "text": "Antes: memória[128] = 7; R0 = 0.\nLOAD R0, [128]: R0 passa a 7.\nA memória[128] continua valendo 7.\n\nSe R0 depois recebe 9,\na memória[128] ainda permanece 7\naté uma escrita naquela posição."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "Registrador e RAM podem conter o mesmo valor por cópia, mas continuam sendo locais diferentes."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Comece com memória[129] = 5 e R1 = 0. Carregue R1, altere R1 para 6 e diga qual valor deve permanecer na memória antes de uma escrita."
+            }
+          ],
+          "guide": [
+            "Registre o estado da RAM e dos registradores separadamente.",
+            "Acompanhe a cópia realizada pela leitura.",
+            "Altere somente o destino indicado por cada operação."
+          ],
+          "check": {
+            "prompt": "R0 recebeu uma cópia de memória[128]. Depois apenas R0 mudou. O que aconteceu com memória[128]?",
+            "choices": [
+              "Seu conteúdo não mudou por essa alteração de R0.",
+              "Virou o contador de programa.",
+              "Foi necessariamente apagada.",
+              "Passou a guardar o endereço de R0."
+            ],
+            "correct": 0,
+            "explanation": "Modificar um registrador não altera automaticamente a posição de RAM que forneceu seu valor."
+          }
+        },
+        {
+          "id": "1.3.8",
+          "title": "O contador de programa aponta o caminho",
+          "subtitle": "PC é um endereço de instrução, não o resultado do cálculo.",
+          "minutes": 6,
+          "objectives": [
+            "Acompanhar o PC em uma sequência com instruções de tamanho definido."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "O contador de programa, PC, participa da escolha da instrução que será buscada. No início de cada passo da nossa simulação, ele contém o endereço da instrução a buscar. Depois de completar uma instrução comum de 4 bytes, nosso modelo avança o PC em 4. Um salto pode escolher outro endereço.\n\nSeparar o PC dos registradores de dados evita um erro frequente: uma soma pode produzir 12 em R2 enquanto o próximo endereço de instrução é outro número. PC descreve o percurso do programa; R2 pode guardar o resultado calculado.\n\nO momento exato em que o PC é atualizado depende do projeto. Processadores reais podem ter várias instruções em andamento. Usaremos um passo completo de cada vez e sempre indicaremos o estado observado."
+            },
+            {
+              "kind": "example",
+              "title": "Passos no programa de estudo",
+              "text": "Antes de buscar: PC = 0.\nInstrução comum de 4 bytes concluída: PC = 4.\nPróxima instrução comum concluída: PC = 8.\n\nSe uma instrução de salto escolher 20,\no próximo passo começa em PC = 20."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "Avançar em 4 é uma regra da nossa CPU de estudo. O tamanho de instruções reais pode variar; não use essa regra sem conhecer a ISA."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Comece com PC = 12. Acompanhe duas instruções sequenciais de 4 bytes e depois um salto para 0. Liste os endereços antes de cada busca."
+            }
+          ],
+          "guide": [
+            "Defina o PC antes da busca.",
+            "Use o tamanho indicado para o avanço sequencial.",
+            "Substitua o avanço normal pelo destino quando houver salto."
+          ],
+          "check": {
+            "prompt": "No modelo, PC = 8 antes de uma instrução sequencial de 4 bytes. Qual é o PC após sua conclusão?",
+            "choices": [
+              "4.",
+              "12.",
+              "32.",
+              "8."
+            ],
+            "correct": 1,
+            "explanation": "O avanço sequencial é de 4 bytes: 8 + 4 = 12."
+          }
+        },
+        {
+          "id": "1.3.9",
+          "title": "O estado explica o próximo passo",
+          "subtitle": "Valores guardados influenciam as ações seguintes.",
+          "minutes": 6,
+          "objectives": [
+            "Identificar o estado necessário para descrever a execução e distinguir registradores de sinais momentâneos."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "Uma CPU contém estado: valores guardados que influenciam sua execução. Na simulação, observaremos PC e R0 a R3. Uma implementação simples também pode conservar a instrução em andamento em um registrador de instrução, chamado IR, enquanto a decodifica e executa.\n\nAlgumas arquiteturas mantêm flags, ou indicadores, de resultados como zero, carry ou overflow. Outras fazem comparações diretamente entre registradores. Não existe uma regra universal segundo a qual toda CPU tenha os mesmos indicadores e nomes.\n\nUm sinal de saída da ALU pode mudar quando suas entradas mudam. Para que uma informação permaneça como parte do estado, ela precisa ser guardada conforme o circuito define. Isso retoma a diferença entre lógica combinacional e armazenamento da unidade 1.2."
+            },
+            {
+              "kind": "example",
+              "title": "Observe o estado em duas etapas",
+              "text": "Antes da soma:\nPC = 8; R0 = 7; R1 = 5; R2 = 0.\n\nDepois de ADD R2, R0, R1:\nPC = 12; R0 = 7; R1 = 5; R2 = 12.\n\nNenhuma escrita na RAM foi pedida\npor essa instrução."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "Nosso salto JZ consulta se um registrador vale zero. Não assumiremos uma flag Z oculta em todos os exemplos."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Descreva o estado antes e depois de somar R0 = 2 com R1 = 3 em R2, partindo de PC = 4. Indique os valores que mudam e os que permanecem."
+            }
+          ],
+          "guide": [
+            "Defina em qual momento você observa o estado.",
+            "Atualize somente os elementos autorizados pela instrução.",
+            "Separe resultado combinacional de valor armazenado."
+          ],
+          "check": {
+            "prompt": "Depois de ADD R2, R0, R1 no exemplo, qual valor mudou entre os registradores de dados?",
+            "choices": [
+              "Todos os registradores foram apagados.",
+              "R2 passou a 12.",
+              "R0 passou a 12.",
+              "R1 passou a 0."
+            ],
+            "correct": 1,
+            "explanation": "R2 é o destino escolhido. R0 e R1 fornecem operandos e mantêm os valores do exemplo."
+          }
+        },
+        {
+          "id": "1.3.10",
+          "title": "Buscar: ler a instrução",
+          "subtitle": "O endereço escolhido pelo PC localiza os bytes do programa.",
+          "minutes": 6,
+          "objectives": [
+            "Separar a busca de uma instrução da leitura de seu operando na memória."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "Buscar é obter os bytes da instrução no endereço indicado pelo PC. A instrução buscada orientará as ações seguintes, mas a busca, sozinha, não realiza necessariamente a operação que ela descreve.\n\nFixaremos as regras da CPU de estudo: R0 a R3 têm 8 bits; o espaço possui 256 endereços de byte; cada instrução ocupa 4 bytes; uma instrução sequencial avança o PC em 4 ao terminar. LOAD copia um byte para um registrador; STORE copia um registrador para um endereço; ADD soma dois registradores e guarda os 8 bits menos significativos. Os nomes são notação didática, não Assembly de um processador comercial.\n\nJMP escolhe outro PC; JZ faz esse salto se o registrador indicado valer zero; HALT encerra nossa simulação, conservando o PC na posição da parada. Acessos fora das regras não têm resultado válido neste modelo."
+            },
+            {
+              "kind": "example",
+              "title": "Quatro bytes antes de ler o dado",
+              "text": "PC = 0.\nBytes do programa em 0 a 3:\n01 00 80 00 (hexadecimal).\n\nEles codificam LOAD R0, [128].\nO valor de memória[128] será lido\nna execução, não nessa busca inicial."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "Estamos usando uma máquina fictícia com regras explícitas. Em CPUs reais, largura, formato, alinhamento e momento de avanço do PC dependem da ISA e da implementação."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Se PC = 8 e a instrução ocupa 4 bytes, indique quais quatro endereços são buscados. Depois explique por que isso não revela automaticamente o conteúdo de memória[128]."
+            }
+          ],
+          "guide": [
+            "Localize o início da instrução pelo PC.",
+            "Leia a quantidade de bytes definida pelo formato.",
+            "Diferencie bytes da instrução dos dados a que ela se refere."
+          ],
+          "check": {
+            "prompt": "Com PC = 8, quais endereços contêm a instrução de 4 bytes do modelo?",
+            "choices": [
+              "Somente 128.",
+              "8 a 11.",
+              "Todos os endereços da RAM.",
+              "8 a 12, incluindo cinco bytes."
+            ],
+            "correct": 1,
+            "explanation": "Quatro bytes a partir de 8 ocupam 8, 9, 10 e 11."
+          }
+        },
+        {
+          "id": "1.3.11",
+          "title": "Decodificar: reconhecer os campos",
+          "subtitle": "Operação, fontes e destino estão codificados na instrução.",
+          "minutes": 6,
+          "objectives": [
+            "Interpretar uma instrução segundo um formato conhecido e identificar seu destino."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "Decodificar é interpretar os campos dos bytes buscados conforme a ISA. Um código de operação, ou opcode, seleciona a ação. Outros campos podem identificar registradores, endereços ou valores imediatos, de acordo com o formato.\n\nNa nossa instrução LOAD, o primeiro byte é 0x01, o segundo identifica o registrador de destino, o terceiro indica um endereço e o quarto fica em zero. Portanto, 01 00 80 00 significa carregar R0 a partir do endereço 0x80, que é 128. Isso não significa que R0 deva receber o número 128: ele receberá o conteúdo daquela posição.\n\nUm campo não tem interpretação universal só por ocupar determinado lugar. Em ADD, os campos seguintes identificam registradores. É o formato definido para a operação que permite interpretar os mesmos bits corretamente."
+            },
+            {
+              "kind": "example",
+              "title": "Leia a função de cada byte",
+              "text": "01 01 81 00 (todos em hexadecimal)\n01: opcode LOAD.\n01: registrador de destino R1.\n81: endereço 0x81 = 129.\n00: campo reservado no nosso formato.\n\nOperação: LOAD R1, [129]."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "A notação hexadecimal facilita a leitura dos bytes, mas não muda a instrução. Campos reservados precisam seguir a definição do modelo."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Decodifique 01 02 82 00. Identifique a operação, o registrador e o endereço. Se o conteúdo desse endereço for 12, preveja o valor que será carregado."
+            }
+          ],
+          "guide": [
+            "Use a definição do opcode.",
+            "Associe cada campo ao papel definido para LOAD.",
+            "Separe o endereço codificado do valor que será lido."
+          ],
+          "check": {
+            "prompt": "Na instrução 01 01 81 00 do modelo, qual é o destino?",
+            "choices": [
+              "O registrador R1.",
+              "Todo o dispositivo de armazenamento.",
+              "O endereço decimal 81.",
+              "O contador de programa necessariamente."
+            ],
+            "correct": 0,
+            "explanation": "O segundo byte identifica R1 como destino no formato LOAD. O terceiro indica o endereço 0x81."
+          }
+        },
+        {
+          "id": "1.3.12",
+          "title": "Executar: realizar os efeitos definidos",
+          "subtitle": "Uma instrução altera destinos específicos.",
+          "minutes": 6,
+          "objectives": [
+            "Acompanhar leituras, cálculo e escrita sem atribuir efeitos inexistentes à instrução."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "Executar é realizar os efeitos definidos para a instrução. LOAD envolve ler um dado e colocá-lo no registrador escolhido. ADD lê os registradores de origem, calcula uma soma e guarda o resultado no destino. STORE escreve na posição de memória indicada.\n\nUma descrição correta precisa mostrar quais valores foram lidos e quais locais foram alterados. No modelo, ADD R2, R0, R1 usa os valores anteriores de R0 e R1. Se forem 7 e 5, R2 recebe 12. Isso não muda automaticamente a RAM nem substitui os operandos.\n\nAo terminar uma instrução sequencial comum, avançamos o PC em 4. Processadores reais podem separar execução e confirmação dos efeitos em mais etapas; nossa simulação trabalha com o estado visível depois de cada instrução completa."
+            },
+            {
+              "kind": "example",
+              "title": "Três ações com destinos diferentes",
+              "text": "LOAD R0, [128]:\nlê a memória e altera R0.\n\nADD R2, R0, R1:\nlê R0 e R1 e altera R2.\n\nSTORE [130], R2:\nlê R2 e altera memória[130]."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "Não confunda obter um resultado na ALU com salvar esse resultado em um arquivo ou até mesmo na RAM."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Com R0 = 9, R1 = 4 e memória[130] = 0, execute ADD R2, R0, R1 e depois STORE [130], R2. Mostre o estado após cada instrução."
+            }
+          ],
+          "guide": [
+            "Liste as fontes de cada operação.",
+            "Calcule o resultado respeitando a largura de 8 bits.",
+            "Atualize somente o destino e o PC indicado."
+          ],
+          "check": {
+            "prompt": "Depois de ADD R2, R0, R1 com R0 = 9 e R1 = 4, quanto vale R2?",
+            "choices": [
+              "13.",
+              "4.",
+              "9.",
+              "130."
+            ],
+            "correct": 0,
+            "explanation": "A soma dos operandos é 13, que cabe nos 8 bits do registrador de destino."
+          }
+        },
+        {
+          "id": "1.3.13",
+          "title": "Uma soma completa, passo a passo",
+          "subtitle": "Programa, registradores e memória aparecem na mesma execução.",
+          "minutes": 8,
+          "objectives": [
+            "Rastrear um programa curto e conferir o estado intermediário antes do resultado final."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "Vamos unir busca, decodificação e execução. Antes de iniciar, memória[128] = 7, memória[129] = 5 e memória[130] = 0. Os registradores de dados começam em zero e PC = 0. As instruções do exemplo já estão codificadas na região do programa.\n\nCada linha tem um endereço porque ocupa quatro bytes. Primeiro carregamos os dois operandos; depois somamos; em seguida escrevemos o resultado. HALT termina a simulação. Enquanto a soma estiver somente em R2, o endereço 130 ainda conserva o valor inicial.\n\nAcompanhar estados intermediários permite localizar erros. Se R1 recebeu o valor errado, não adianta analisar apenas a última escrita: a origem do problema pode estar na leitura ou no endereço de uma instrução anterior."
+            },
+            {
+              "kind": "example",
+              "title": "Programa e estados resultantes",
+              "text": "Endereço  Instrução de estudo\n0         LOAD R0, [128]\n4         LOAD R1, [129]\n8         ADD R2, R0, R1\n12        STORE [130], R2\n16        HALT\n\nApós 0: R0=7; PC=4.\nApós 4: R1=5; PC=8.\nApós 8: R2=12; PC=12; memória[130]=0.\nApós 12: memória[130]=12; PC=16.\nApós 16: simulação parada; PC=16."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "Os endereços do programa e os dos dados são diferentes. HALT é uma regra da simulação; não significa desligar fisicamente um computador real."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Troque as entradas por 6 e 9. Sem pular etapas, preencha PC, R0, R1, R2 e memória[130] após cada instrução. Depois troque apenas o destino da escrita para 131 e explique a diferença."
+            }
+          ],
+          "guide": [
+            "Anote o estado inicial completo.",
+            "Execute uma instrução de cada vez e mantenha os valores não alterados.",
+            "Compare a primeira etapa em que a execução diverge da previsão."
+          ],
+          "check": {
+            "prompt": "No programa, em qual momento memória[130] recebe 12?",
+            "choices": [
+              "Na primeira busca, antes do LOAD.",
+              "Sempre que o clock muda, sem instrução.",
+              "Quando STORE [130], R2 é executada.",
+              "Somente após desligar."
+            ],
+            "correct": 2,
+            "explanation": "A soma atualiza R2. A escrita posterior é que copia 12 para a posição 130."
+          }
+        },
+        {
+          "id": "1.3.14",
+          "title": "Saltos mudam a próxima busca",
+          "subtitle": "Decisões e repetições dependem do fluxo de controle.",
+          "minutes": 6,
+          "objectives": [
+            "Distinguir salto incondicional de condicional e prever o PC nos dois casos."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "Um salto altera o endereço da próxima instrução buscada. Um salto incondicional escolhe o destino diretamente. Um salto condicional depende de um teste definido pela ISA. Esses mecanismos permitem decisões e repetições no programa.\n\nNa CPU de estudo, JMP 0 escolhe PC = 0. JZ R2, 20 escolhe PC = 20 se R2 for zero; caso contrário, mantém o avanço sequencial de 4 bytes. Se JZ começa no endereço 8 e o teste não é satisfeito, o próximo PC é 12.\n\nEscolher um endereço não altera automaticamente o conteúdo dessa posição. O salto reorganiza a ordem de execução. Um salto para bytes que não formam uma instrução válida pode gerar erro; por isso o destino precisa respeitar as regras do programa."
+            },
+            {
+              "kind": "example",
+              "title": "O mesmo salto, dois estados",
+              "text": "PC antes da instrução = 8.\nInstrução: JZ R2, 20.\n\nSe R2 = 0: próximo PC = 20.\nSe R2 = 5: próximo PC = 12.\n\nA RAM não recebe 20 por causa do salto."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "No modelo, todos os destinos de instrução dos exemplos estão alinhados em múltiplos de 4. Não trate um salto como leitura ou escrita de dados."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Preveja o próximo PC para JZ R1, 0 no endereço 12, primeiro com R1 = 0 e depois com R1 = 3. Explique como um salto de retorno pode produzir repetição."
+            }
+          ],
+          "guide": [
+            "Leia a condição e o registrador consultado.",
+            "Escolha entre destino do salto e endereço sequencial.",
+            "Verifique se o destino é uma instrução válida do programa."
+          ],
+          "check": {
+            "prompt": "JZ R1, 0 está no endereço 12 e R1 = 3. Qual será o próximo PC?",
+            "choices": [
+              "16.",
+              "3.",
+              "12.",
+              "0."
+            ],
+            "correct": 0,
+            "explanation": "Como R1 não é zero, o salto não é tomado. O avanço sequencial é 12 + 4 = 16."
+          }
+        },
+        {
+          "id": "1.3.15",
+          "title": "RAM: a memória de trabalho",
+          "subtitle": "Acesso por endereço e volatilidade são características distintas.",
+          "minutes": 6,
+          "objectives": [
+            "Explicar o uso da RAM e distinguir DRAM de SRAM em nível introdutório."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "RAM significa memória de acesso aleatório: o circuito pode selecionar uma posição pelo endereço, sem ler obrigatoriamente todas as posições anteriores. Isso não quer dizer escolher endereços ao acaso nem garantir que todos os acessos tenham o mesmo tempo no sistema completo.\n\nA RAM usada como memória principal geralmente é DRAM, que conserva bits em estruturas que precisam de renovação periódica, chamada refresh. SRAM usa outro tipo de circuito e não precisa desse refresh enquanto recebe energia; ela é comum na implementação de caches.\n\nAs duas são normalmente voláteis. Sem energia, o estado de trabalho deixa de ser conservado de forma confiável. Uma memória maior permite manter mais dados simultaneamente, mas capacidade e velocidade de acesso são propriedades diferentes."
+            },
+            {
+              "kind": "example",
+              "title": "Endereço direto, sem percorrer o arquivo",
+              "text": "Pedido: ler o endereço 130.\nO circuito seleciona essa posição.\nNão é necessário ler primeiro\nos endereços 0, 1, 2 ... 129.\n\nIsso não equivale a abrir um arquivo\narmazenado em um SSD."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "DRAM e SRAM diferem na implementação. Ambas precisam de energia para conservar o estado de trabalho típico descrito aqui."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Explique por que uma anotação digitada pode desaparecer se nunca foi gravada, mesmo que o equipamento tenha muita RAM. Separe capacidade, acesso e persistência."
+            }
+          ],
+          "guide": [
+            "Defina acesso por endereço.",
+            "Diferencie refresh de gravação de um arquivo.",
+            "Identifique quais dados exigem armazenamento persistente."
+          ],
+          "check": {
+            "prompt": "O que significa acesso aleatório em RAM?",
+            "choices": [
+              "Qualquer arquivo está automaticamente salvo.",
+              "A RAM não tem endereço.",
+              "Uma posição pode ser selecionada pelo endereço sem percorrer todas as anteriores.",
+              "Os valores armazenados são sempre sorteados."
+            ],
+            "correct": 2,
+            "explanation": "Aleatório descreve a forma de acesso às posições, não uma seleção imprevisível nem persistência."
+          }
+        },
+        {
+          "id": "1.3.16",
+          "title": "ROM, flash e o início do sistema",
+          "subtitle": "Algum código precisa estar disponível antes de abrir seus aplicativos.",
+          "minutes": 6,
+          "objectives": [
+            "Relacionar armazenamento não volátil, firmware e início da execução."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "ROM é memória somente de leitura na utilização para a qual foi projetada. Existem diferentes tecnologias e formas de programação. Flash é uma memória não volátil que pode ser apagada e reprogramada seguindo regras específicas; muitos sistemas a utilizam para guardar firmware.\n\nFirmware é software que fornece funções próximas ao hardware. Em um sistema típico, uma sequência inicial de código prepara componentes e participa do carregamento do restante do sistema. O endereço e o mecanismo inicial de execução são definidos pelo projeto, não escolhidos ao acaso pela CPU.\n\nUma região chamada ROM em um mapa ou simulador não precisa representar exatamente a mesma tecnologia física de outro equipamento. Separe a função de guardar código inicial da possibilidade de atualizar o componente. A sequência completa de inicialização será retomada com execução e sistemas operacionais."
+            },
+            {
+              "kind": "example",
+              "title": "Um início típico, sem depender da RAM antiga",
+              "text": "Energia e reset.\nCPU começa no ponto definido pelo projeto.\nCódigo inicial/firmware fica disponível.\nComponentes são preparados.\nO restante do sistema é carregado.\n\nValores antigos da RAM não são\na base confiável dessa inicialização."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "Firmware é software, embora esteja associado ao hardware. Atualizar firmware não é o mesmo que trocar fisicamente a CPU."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Classifique firmware guardado em flash, dados temporários em DRAM e um arquivo salvo em SSD. Diga quais podem persistir sem energia e por que isso importa no início do sistema."
+            }
+          ],
+          "guide": [
+            "Identifique o que é código e o que é dado.",
+            "Separe tecnologia física de função no sistema.",
+            "Explique de onde vem o código inicial após o reset."
+          ],
+          "check": {
+            "prompt": "Qual afirmação descreve firmware adequadamente?",
+            "choices": [
+              "É software associado a funções de hardware, frequentemente guardado em memória não volátil.",
+              "É necessariamente o histórico completo de todos os arquivos.",
+              "É um nome para a energia elétrica.",
+              "É sempre um registrador da ALU."
+            ],
+            "correct": 0,
+            "explanation": "Firmware é código, não uma peça de lógica fixa por definição. A tecnologia e as regras de atualização variam."
+          }
+        },
+        {
+          "id": "1.3.17",
+          "title": "A hierarquia de memória",
+          "subtitle": "Diferentes níveis equilibram acesso, capacidade e custo.",
+          "minutes": 6,
+          "objectives": [
+            "Relacionar registradores, caches, RAM e armazenamento sem confundir seus papéis."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "Um sistema combina níveis de memória com características diferentes. Registradores guardam os valores utilizados diretamente nas operações. Caches conservam blocos para reduzir o custo de acessos frequentes. A RAM principal oferece espaço de trabalho maior. SSD e flash permitem armazenamento persistente.\n\nEm termos gerais, os níveis próximos às operações de um núcleo têm capacidade menor e menor tempo de acesso. Os níveis mais distantes podem guardar muito mais informação. A organização concreta, os tamanhos e os tempos dependem do equipamento; não há uma tabela única de números para todos os computadores.\n\nUm cache miss não significa automaticamente uma leitura de SSD. A busca pode ser atendida por outro nível de cache ou pela RAM. Armazenamento entra, por exemplo, quando o sistema carrega um arquivo ou precisa trazer páginas que não estão na memória de trabalho."
+            },
+            {
+              "kind": "example",
+              "title": "Papéis em uma tarefa de cálculo",
+              "text": "Registradores: operandos da soma atual.\nCache: blocos usados recentemente.\nRAM: conjunto de valores em trabalho.\nSSD/flash: arquivo de medidas gravadas.\n\nO programa precisa carregar os dados\ne depois efetuar seus cálculos."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "A hierarquia é uma organização de funções e custos. Não conclua que cada leitura da CPU percorre obrigatoriamente todos os níveis até o SSD."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Distribua uma soma intermediária, um bloco reutilizado, uma grande tabela em uso e um arquivo gravado pelos níveis mais adequados. Explique o motivo de cada escolha."
+            }
+          ],
+          "guide": [
+            "Identifique quais valores estão sendo utilizados agora.",
+            "Separe cópias em cache do espaço principal de trabalho.",
+            "Localize o armazenamento que conserva arquivos."
+          ],
+          "check": {
+            "prompt": "Um acesso não encontrou o dado na cache L1. Qual afirmação é correta?",
+            "choices": [
+              "Outro nível de cache ou a RAM pode atender o acesso.",
+              "O sistema necessariamente apagou o arquivo.",
+              "A CPU já concluiu que o endereço é inválido.",
+              "O dado só pode estar na internet."
+            ],
+            "correct": 0,
+            "explanation": "Uma falta em L1 não informa, sozinha, o resultado nos demais níveis. Cache miss não equivale a perda de arquivo."
+          }
+        },
+        {
+          "id": "1.3.18",
+          "title": "Cache: encontrar uma cópia útil",
+          "subtitle": "Hit e miss descrevem o resultado de uma consulta.",
+          "minutes": 6,
+          "objectives": [
+            "Distinguir cache hit de miss e entender a existência de vários níveis."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "Cache mantém blocos que podem atender acessos com menor custo do que buscar novamente em um nível mais distante. Quando o bloco válido procurado está no nível consultado, ocorre um hit. Quando não está, ocorre um miss e é necessário buscar a informação conforme a hierarquia.\n\nMuitos processadores possuem níveis chamados L1, L2 e L3. A cache L1 pode separar instruções e dados; outros níveis podem ser privados ou compartilhados. A quantidade de níveis e sua organização variam. Não presuma que todo chip tem L3 nem que todo nível pertence a um único núcleo.\n\nCache não é uma cópia permanente de todos os dados. Blocos entram, saem e precisam seguir regras de atualização e validade. Isso permite acelerar muitos acessos, mas não dispensa a RAM nem a correção das operações de memória."
+            },
+            {
+              "kind": "example",
+              "title": "Uma falta em L1 ainda pode ser um acerto em L2",
+              "text": "Pedido: ler um byte do bloco A.\nL1: bloco A ausente -> miss em L1.\nL2: bloco A válido presente -> hit em L2.\n\nEsse acesso pode ser atendido por L2,\nsem buscar o bloco na RAM principal."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "Cache de CPU não é o mesmo recurso que o aplicativo chama de conteúdo offline. Ambos reutilizam dados, mas operam em camadas e com regras diferentes."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Imagine um dado presente em L1, outro somente em L2 e um terceiro na RAM. Descreva a diferença entre os acessos, sem inventar tempos universais."
+            }
+          ],
+          "guide": [
+            "Consulte um nível por vez no modelo.",
+            "Identifique a presença de um bloco válido.",
+            "Distinga o nível em que houve falta daquele que atendeu o pedido."
+          ],
+          "check": {
+            "prompt": "O que é um cache hit?",
+            "choices": [
+              "Perder permanentemente o dado.",
+              "Encontrar o bloco válido procurado na cache consultada.",
+              "Executar uma interrupção em qualquer leitura.",
+              "Aumentar automaticamente o tamanho de um arquivo."
+            ],
+            "correct": 1,
+            "explanation": "Hit significa que a consulta foi atendida pelo bloco válido presente naquele nível de cache."
+          }
+        },
+        {
+          "id": "1.3.19",
+          "title": "Localidade: por que reutilizar funciona",
+          "subtitle": "Acessos próximos no tempo e no espaço podem aproveitar blocos.",
+          "minutes": 7,
+          "objectives": [
+            "Distinguir localidade temporal de espacial e prever hits em um exemplo de blocos."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "Localidade temporal é a tendência de voltar a usar uma informação em pouco tempo. Localidade espacial é a tendência de acessar posições próximas. Muitas tarefas apresentam essas propriedades: uma soma parcial é reutilizada e uma sequência de medidas costuma ocupar endereços próximos.\n\nUma cache geralmente transfere blocos, não apenas o byte isolado solicitado. No exemplo, cada bloco contém 4 bytes. Buscar o bloco dos endereços 128 a 131 pode ajudar tanto uma nova leitura de 128 quanto uma leitura de 129.\n\nConsidere somente os acessos de dados listados, uma cache inicialmente vazia e espaço suficiente para os blocos usados, sem expulsões ou outras alterações. Essas condições são parte do exercício. Programas reais podem ter conflitos, concorrência e outros acessos."
+            },
+            {
+              "kind": "example",
+              "title": "Quatro leituras com blocos de 4 bytes",
+              "text": "Sequência: 128, 129, 128, 190.\n\n128: miss; traz o bloco 128 a 131.\n129: hit; aproveita proximidade espacial.\n128: hit; reaproveita no tempo.\n190: miss; precisa do bloco 188 a 191.\n\nDois hits em quatro acessos."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "Localidade ajuda a explicar o benefício da cache, mas não garante hit: o bloco precisa continuar presente e válido."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Nas mesmas condições, analise 128, 130, 131 e 128. Identifique o primeiro acesso ao bloco e os reaproveitamentos espacial e temporal."
+            }
+          ],
+          "guide": [
+            "Divida a memória em blocos de 4 bytes.",
+            "Marque quais blocos já entraram na cache.",
+            "Justifique o reaproveitamento temporal ou espacial de cada acesso."
+          ],
+          "check": {
+            "prompt": "Ler 129 logo após carregar o bloco 128 a 131 exemplifica principalmente:",
+            "choices": [
+              "Persistência sem energia.",
+              "Localidade temporal do mesmo endereço.",
+              "Uma troca automática de ISA.",
+              "Localidade espacial."
+            ],
+            "correct": 3,
+            "explanation": "O novo acesso usa uma posição próxima incluída no mesmo bloco. Repetir o mesmo endereço exemplificaria localidade temporal."
+          }
+        },
+        {
+          "id": "1.3.20",
+          "title": "O custo médio dos acessos",
+          "subtitle": "Uma pequena quantidade de faltas pode pesar no tempo.",
+          "minutes": 7,
+          "objectives": [
+            "Calcular um tempo médio didático sem confundir penalidade adicional com tempo total."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "Para avaliar uma cache, não basta conhecer seu tamanho. Também importam frequência de hits, custo do acerto e penalidade quando falta um bloco. Vamos usar um modelo de acessos serializados para fazer uma conta simples.\n\nSuponha um hit de 4 ciclos e uma penalidade adicional de 40 ciclos em cada miss. Um miss custa 44 ciclos no total, pois primeiro houve a consulta e depois o custo adicional. Se 25% dos acessos forem misses, o tempo médio será 4 + 0,25 × 40 = 14 ciclos por acesso.\n\nEsses números são inventados para o exercício. CPUs reais podem sobrepor operações, possuir vários níveis e lidar com outras esperas. O tempo médio deste modelo não é uma previsão completa da velocidade do programa."
+            },
+            {
+              "kind": "example",
+              "title": "Confira a média em 100 acessos",
+              "text": "75 hits: 75 × 4 = 300 ciclos.\n25 misses: 25 × 44 = 1.100 ciclos.\nTotal: 1.400 ciclos.\nMédia: 1.400 / 100 = 14 ciclos.\n\nFórmula equivalente:\n4 + (25/100) × 40 = 14."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "Penalidade adicional e custo total de um miss são medidas diferentes. Defina qual delas está usando antes de calcular a média."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Mantenha os mesmos custos e reduza a taxa de miss para 10%. Calcule a média e explique por que uma cache maior não garante, sozinha, essa redução."
+            }
+          ],
+          "guide": [
+            "Identifique o custo comum de consulta.",
+            "Multiplique a taxa de miss pela penalidade adicional.",
+            "Confira a conta por uma sequência de 100 acessos."
+          ],
+          "check": {
+            "prompt": "No modelo com hit de 4 ciclos e penalidade adicional de 40, quanto custa um miss completo?",
+            "choices": [
+              "10 ciclos.",
+              "40 ciclos.",
+              "4 ciclos.",
+              "44 ciclos."
+            ],
+            "correct": 3,
+            "explanation": "O custo total é 4 ciclos da consulta mais 40 ciclos adicionais: 44."
+          }
+        },
+        {
+          "id": "1.3.21",
+          "title": "Barramentos conectam os componentes",
+          "subtitle": "Endereço, dados e controle têm papéis diferentes.",
+          "minutes": 6,
+          "objectives": [
+            "Identificar as três funções em uma transferência entre CPU e memória."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "Barramentos e interconexões permitem comunicação entre componentes. Um modelo clássico separa três funções: endereço identifica a posição ou destino; dados transportam valores; controle indica o tipo de operação e as condições de transferência.\n\nPara ler memória[128], a CPU solicita uma leitura da posição 128 e recebe seu conteúdo. Para escrever 12 em memória[130], precisa fornecer o endereço 130, o valor 12 e uma solicitação de escrita. Trocar uma dessas informações muda o significado da operação.\n\nA separação é conceitual. Sistemas reais podem multiplexar sinais, usar canais independentes ou transmitir mensagens por enlaces ponto a ponto. Nem todo computador possui três conjuntos de fios com a mesma aparência do desenho clássico."
+            },
+            {
+              "kind": "example",
+              "title": "Uma leitura tem três informações",
+              "text": "Endereço: 128 (0x80).\nControle: operação de leitura.\nDados devolvidos: 7, se memória[128] = 7.\n\nO endereço escolhe onde.\nO controle indica o que fazer.\nOs dados são o valor transportado."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "Não confunda o número do endereço com o dado que viaja. Uma mesma sequência de bits pode ter papéis diferentes em campos diferentes."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Descreva endereço, dados e controle para escrever 9 em memória[131]. Depois descreva uma leitura dessa posição e compare a direção dos dados."
+            }
+          ],
+          "guide": [
+            "Identifique quem inicia a operação e seu destino.",
+            "Separe endereço de valor transportado.",
+            "Declare se a operação lê ou escreve."
+          ],
+          "check": {
+            "prompt": "Para escrever 12 em memória[130], qual combinação é adequada?",
+            "choices": [
+              "Endereço=12; dados=130; controle=leitura.",
+              "Endereço=0; dados=0; nenhuma operação.",
+              "Somente uma mudança no PC.",
+              "Endereço=130; dados=12; controle=escrita."
+            ],
+            "correct": 3,
+            "explanation": "O endereço escolhe 130, o dado transporta 12 e o controle solicita escrita."
+          }
+        },
+        {
+          "id": "1.3.22",
+          "title": "Largura de endereço e de dados",
+          "subtitle": "Selecionar posições não é o mesmo que transportar vários bytes.",
+          "minutes": 6,
+          "objectives": [
+            "Calcular posições endereçáveis e bytes por transferência sob hipóteses explícitas."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "Com n bits para endereços, existem 2 elevado a n combinações de endereço. Se cada combinação seleciona um byte, a capacidade diretamente identificável nesse modelo é 2 elevado a n bytes. Se cada endereço selecionar uma palavra, o cálculo em bytes precisa considerar o tamanho dessa palavra.\n\nA largura do caminho de dados descreve quantos bits podem ser transportados numa transferência definida pelo protocolo. Um caminho de 8 bits pode transportar um byte por transferência; um de 16 bits pode transportar dois, quando todos esses bits representam dados úteis.\n\nLargura de registradores, de endereços e de caminhos físicos são características distintas. Elas podem se relacionar, mas não precisam ter o mesmo número em todo projeto."
+            },
+            {
+              "kind": "example",
+              "title": "Duas larguras, duas perguntas",
+              "text": "Modelo com endereço de 8 bits:\n2^8 = 256 posições, numeradas de 0 a 255.\nCom endereçamento por byte: 256 bytes.\n\nOutro enlace, com dados de 16 bits:\n16 / 8 = 2 bytes úteis por transferência.\nIsso não informa sua quantidade de endereços."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "As contas assumem endereçamento por byte e transferências totalmente úteis. Não aplique esses resultados a um equipamento sem conferir suas regras."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Calcule quantas posições existem com 10 bits de endereço. Depois calcule quantos bytes cabem numa transferência útil de 32 bits. Diga por que são perguntas diferentes."
+            }
+          ],
+          "guide": [
+            "Conte combinações para a largura de endereço.",
+            "Defina quanto cada endereço seleciona.",
+            "Converta bits de dados em bytes por transferência."
+          ],
+          "check": {
+            "prompt": "Com 10 bits de endereço e um byte por posição, qual é a capacidade do modelo?",
+            "choices": [
+              "10 bytes.",
+              "1.024 bits necessariamente.",
+              "1.024 bytes.",
+              "32 bytes."
+            ],
+            "correct": 2,
+            "explanation": "Existem 2^10 = 1.024 endereços. Como cada endereço seleciona um byte, são 1.024 bytes."
+          }
+        },
+        {
+          "id": "1.3.23",
+          "title": "Controle e espera pela transferência",
+          "subtitle": "Solicitar um acesso não significa que ele já terminou.",
+          "minutes": 6,
+          "objectives": [
+            "Explicar leitura, escrita e confirmação em um protocolo didático de memória."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "Uma transferência precisa seguir um protocolo. O componente solicitante indica a operação e o receptor precisa responder segundo as regras de tempo e validade dos sinais. Se o dado ainda não estiver disponível, não é correto usar qualquer valor momentâneo como resposta concluída.\n\nImagine um protocolo didático com sinais READ, WRITE e READY. Em uma leitura, a CPU apresenta o endereço e ativa READ. O receptor só indica READY quando sua resposta pode ser aceita. Em uma escrita, o endereço e o dado devem permanecer válidos conforme o protocolo até a aceitação.\n\nBarramentos reais podem organizar isso de outras maneiras, inclusive com pedidos e respostas separados. A ideia importante é distinguir solicitação, espera e conclusão. Um acesso pode demandar vários ciclos; não presuma uma instrução inteira por pulso de clock."
+            },
+            {
+              "kind": "example",
+              "title": "Leia somente quando a resposta for válida",
+              "text": "Ciclo 1: endereço 128; READ ativo.\n           READY ainda inativo.\nCiclo 2: receptor continua trabalhando.\nCiclo 3: dado 7 válido; READY ativo.\n           A CPU aceita o valor 7.\n\nTempos e nomes pertencem a este exemplo."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "Um valor presente nos fios não basta: é necessário que esteja válido no momento definido pelo protocolo."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Descreva uma escrita de 12 em 130 que precise esperar. Identifique quando endereço e dados devem estar válidos e em que momento a operação pode ser considerada concluída."
+            }
+          ],
+          "guide": [
+            "Separe pedido de confirmação.",
+            "Respeite as condições de validade de endereço e dado.",
+            "Não use o resultado antes da conclusão definida pelo protocolo."
+          ],
+          "check": {
+            "prompt": "No protocolo do exemplo, READY está inativo após um pedido de leitura. O que é adequado?",
+            "choices": [
+              "Aguardar a condição de resposta válida definida pelo protocolo.",
+              "Supor imediatamente que a resposta é zero.",
+              "Tratar todo valor momentâneo como uma leitura concluída.",
+              "Apagar todos os registradores."
+            ],
+            "correct": 0,
+            "explanation": "A solicitação não garante conclusão. A resposta só pode ser aceita quando o protocolo indicar sua validade."
+          }
+        },
+        {
+          "id": "1.3.24",
+          "title": "Latência e taxa de transferência",
+          "subtitle": "Tempo para começar e volume por segundo são medidas diferentes.",
+          "minutes": 7,
+          "objectives": [
+            "Distinguir latência de largura de banda e calcular uma taxa útil hipotética."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "Latência é o tempo para completar um acesso ou obter uma resposta, conforme a medição definida. Largura de banda é a quantidade de dados transferida por unidade de tempo. Um sistema pode mover grandes blocos rapidamente e ainda ter um custo relevante para iniciar cada pedido pequeno.\n\nConsidere um enlace hipotético, separado da CPU de estudo, com 32 bits úteis por transferência e 50 milhões de transferências por segundo. Como cada transferência transporta 4 bytes, sua taxa útil ideal é 200 milhões de bytes por segundo, ou 200 MB/s na convenção decimal.\n\nEssa conta supõe transferências continuamente úteis, sem pausas nem overhead. A taxa observada pode ser menor. Frequência, quantidade de transferências por ciclo, ocupação e protocolo precisam ser considerados antes de estimar uma taxa real."
+            },
+            {
+              "kind": "example",
+              "title": "A conta mostra suas hipóteses",
+              "text": "32 bits / 8 = 4 bytes por transferência.\n4 × 50.000.000 = 200.000.000 bytes/s.\nTaxa ideal: 200 MB/s, em unidades decimais.\n\nUma espera inicial de 50 microssegundos\né latência inicial, não 50 MB/s."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "MB/s e MiB/s usam divisores diferentes. E ter registradores de 64 bits não significa concluir qualquer tarefa no dobro da velocidade."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Compare um enlace de 16 bits com 100 milhões de transferências úteis por segundo e o enlace do exemplo. Calcule as taxas e explique por que tempos de resposta ainda podem ser diferentes."
+            }
+          ],
+          "guide": [
+            "Converta bits úteis por transferência em bytes.",
+            "Multiplique pela quantidade de transferências por segundo.",
+            "Separe o volume por segundo do tempo de resposta de um pedido."
+          ],
+          "check": {
+            "prompt": "Nas hipóteses do exemplo, qual é a taxa ideal do enlace de 32 bits e 50 milhões de transferências por segundo?",
+            "choices": [
+              "50 bytes/s.",
+              "32 MB/s.",
+              "200 MB/s em unidades decimais.",
+              "50 MiB/s obrigatoriamente."
+            ],
+            "correct": 2,
+            "explanation": "São 4 bytes por transferência multiplicados por 50 milhões de transferências por segundo."
+          }
+        },
+        {
+          "id": "1.3.25",
+          "title": "Periféricos precisam de uma interface",
+          "subtitle": "Sensores, teclado, tela e armazenamento se comunicam por controladores.",
+          "minutes": 6,
+          "objectives": [
+            "Relacionar dispositivo, controlador e dados acessíveis ao software."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "Entrada e saída, ou E/S, permitem ao computador trocar informações com o ambiente e com outros componentes. Teclados e sensores fornecem entradas; telas e atuadores podem apresentar saídas; muitos dispositivos participam das duas direções.\n\nUm controlador oferece uma interface entre o dispositivo e o restante do sistema. Ele pode disponibilizar registradores de estado, dados e comando, além de buffers para guardar informações temporariamente. A CPU utiliza essa interface conforme suas regras, em vez de tratar todo sinal físico como uma instrução pronta.\n\nO software precisa saber quando uma informação é válida e como confirmar seu consumo. Um buffer cheio pode perder novos eventos se o sistema não o tratar adequadamente. Drivers e sistemas operacionais organizarão essa interação em uma unidade posterior."
+            },
+            {
+              "kind": "example",
+              "title": "Uma tecla vira informação disponível",
+              "text": "A tecla é pressionada.\nO dispositivo detecta o evento.\nA interface/controlador disponibiliza dados.\nO software lê e interpreta o evento.\nO programa decide o efeito na tela.\n\nCada etapa tem uma função diferente."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "Receber um evento não determina sozinho a resposta do programa. O mesmo botão pode executar ações diferentes conforme o software e seu estado."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Descreva a leitura de um sensor por controlador, buffer e programa. Explique o que pode ocorrer se novas medidas chegarem mais rápido do que o programa as consome."
+            }
+          ],
+          "guide": [
+            "Identifique o dispositivo e a direção da informação.",
+            "Localize a interface que expõe estado e dados.",
+            "Considere validade, capacidade do buffer e consumo dos eventos."
+          ],
+          "check": {
+            "prompt": "Qual é um papel típico do controlador de um dispositivo?",
+            "choices": [
+              "Transformar qualquer arquivo em uma CPU.",
+              "Disponibilizar uma interface de dados, estado e comandos.",
+              "Substituir permanentemente toda a RAM.",
+              "Eliminar a necessidade de protocolo."
+            ],
+            "correct": 1,
+            "explanation": "Controladores organizam a comunicação com o dispositivo. Sua interface define como acessar e controlar os dados."
+          }
+        },
+        {
+          "id": "1.3.26",
+          "title": "Entrada e saída mapeadas em memória",
+          "subtitle": "Alguns endereços acessam dispositivos em vez de RAM comum.",
+          "minutes": 6,
+          "objectives": [
+            "Interpretar um mapa didático de endereços de dados e dispositivos."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "Em E/S mapeada em memória, determinados endereços são associados a registradores de dispositivos. Instruções de acesso usam esses endereços, mas a leitura ou escrita realiza uma operação na interface do periférico, não em uma posição comum de RAM.\n\nNo exemplo fictício, o endereço 240, ou 0xF0, permite ler um valor de entrada, e 241, ou 0xF1, recebe um valor para um indicador numérico. LOAD R0, [240] obtém o byte fornecido pela interface. STORE [241], R2 envia ao dispositivo o valor que está em R2.\n\nAcessos a dispositivos podem ter efeitos colaterais: uma leitura pode consumir um evento, e uma escrita pode iniciar uma operação. As regras de cache, ordenação e validade precisam respeitar o mapa do sistema. Não trate todos os endereços como RAM intercambiável."
+            },
+            {
+              "kind": "example",
+              "title": "Mapa usado no projeto da unidade",
+              "text": "128: RAM para um dado de trabalho.\n130: RAM para o resultado.\n240: leitura de entrada numérica fictícia.\n241: escrita no indicador numérico fictício.\n\nLOAD R0, [240] lê a entrada.\nSTORE [241], R2 envia o resultado ao indicador."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "Esses endereços pertencem ao exercício. Em um equipamento real, o mapa e as operações permitidas vêm da documentação e do software responsável pelo dispositivo."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "A entrada no endereço 240 fornece 9. Execute LOAD R0, [240], copie o valor para um resultado e descreva o efeito de enviá-lo a 241. Diferencie isso de escrever em 130."
+            }
+          ],
+          "guide": [
+            "Consulte o papel atribuído a cada endereço.",
+            "Separe RAM comum de registrador de dispositivo.",
+            "Identifique possíveis efeitos de leitura ou escrita definidos pela interface."
+          ],
+          "check": {
+            "prompt": "No mapa do exemplo, STORE [241], R2 faz o quê?",
+            "choices": [
+              "Muda o PC para 241.",
+              "Apaga todos os endereços da RAM.",
+              "Grava obrigatoriamente um arquivo no SSD.",
+              "Envia R2 à interface do indicador numérico."
+            ],
+            "correct": 3,
+            "explanation": "O endereço 241 foi definido como interface de saída. A escrita tem o efeito previsto para esse dispositivo."
+          }
+        },
+        {
+          "id": "1.3.27",
+          "title": "Polling: perguntar repetidamente",
+          "subtitle": "Consultar o estado funciona, mas tem um custo.",
+          "minutes": 6,
+          "objectives": [
+            "Explicar consulta periódica e avaliar o equilíbrio entre frequência, custo e resposta."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "Polling é consultar o estado de uma interface para descobrir se uma condição já ocorreu. Um programa pode ler um indicador de pronto e repetir a consulta enquanto o dado não está disponível.\n\nEm uma espera ocupada, a CPU continua executando consultas. Isso usa instruções e acessos, mesmo que nenhuma informação nova tenha chegado. Em outros projetos, consultas podem ser espaçadas ou combinadas com espera organizada pelo sistema. Não confunda toda consulta periódica com um laço que ocupa continuamente o núcleo.\n\nPerguntar mais frequentemente pode reduzir a espera para detectar um evento, mas aumenta o custo de consultas. Polling pode ser adequado em situações específicas; interrupções são outra estratégia, não uma substituição obrigatória em todo sistema."
+            },
+            {
+              "kind": "example",
+              "title": "Quatro consultas a um indicador",
+              "text": "Consulta 1: pronto = 0.\nConsulta 2: pronto = 0.\nConsulta 3: pronto = 0.\nConsulta 4: pronto = 1; o dado pode ser lido.\n\nAs três primeiras consultas executaram\ntrabalho sem encontrar um dado pronto."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "O indicador de pronto e o dado precisam ser usados na ordem definida pela interface. Consultas não garantem que eventos nunca sejam perdidos."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Compare perguntar a cada 1 milissegundo com perguntar a cada 10 milissegundos, supondo consultas periódicas ideais. Discuta quantidade de consultas e tempo até perceber um evento entre elas."
+            }
+          ],
+          "guide": [
+            "Leia o indicador antes de usar o dado, se o protocolo exigir.",
+            "Conte consultas que não encontraram novidade.",
+            "Relacione o intervalo ao custo e à demora de detecção."
+          ],
+          "check": {
+            "prompt": "O que caracteriza polling?",
+            "choices": [
+              "A CPU muda automaticamente de ISA.",
+              "Toda espera ocorre necessariamente sem executar instruções.",
+              "O dispositivo sempre grava sozinho um arquivo.",
+              "O programa consulta o estado para verificar uma condição."
+            ],
+            "correct": 3,
+            "explanation": "Polling é a consulta ao estado. A forma de esperar entre consultas depende do projeto."
+          }
+        },
+        {
+          "id": "1.3.28",
+          "title": "Interrupções: atender um evento",
+          "subtitle": "O processador precisa preservar o que será retomado.",
+          "minutes": 7,
+          "objectives": [
+            "Descrever solicitação, atendimento e retomada, distinguindo interrupção de exceção síncrona."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "Um dispositivo ou temporizador pode solicitar uma interrupção. Em uma CPU com esse suporte, a solicitação pode ser reconhecida conforme habilitação, prioridade e regras da arquitetura. O processador então passa a uma rotina de atendimento, em vez de depender apenas de consultas do programa principal.\n\nPara retomar corretamente o trabalho anterior, o contexto necessário precisa ser preservado. Hardware e software colaboram nessa tarefa: algumas informações são guardadas pelo próprio processador; outras são responsabilidade da rotina. Não suponha que todos os registradores sejam automaticamente protegidos em qualquer CPU.\n\nEventos externos e temporizadores são exemplos de interrupções assíncronas em relação à instrução executada. Uma instrução inválida pode causar uma exceção síncrona. Os nomes e mecanismos concretos variam entre arquiteturas. A CPU de estudo básica não implementa essas instruções de atendimento; aqui analisamos o conceito separadamente."
+            },
+            {
+              "kind": "example",
+              "title": "Retomar exige conservar o contexto",
+              "text": "Antes do evento: próximo PC=12; R2=12.\nA rotina de atendimento precisa usar R2.\nEla preserva o valor necessário antes de usá-lo.\nDurante o atendimento: R2 pode receber 99.\nAntes de retomar: R2 volta a 12.\nO retorno usa o ponto de retomada guardado.\n\nO mecanismo exato depende da arquitetura."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "Preservar contexto não significa desfazer todos os efeitos do atendimento na memória. Os dados do evento precisam continuar disponíveis conforme o projeto."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Explique o erro de uma rotina que altera R2 e retorna sem restaurá-lo, quando o programa interrompido ainda precisa de seu valor. Separe evento externo de instrução inválida."
+            }
+          ],
+          "guide": [
+            "Identifique qual evento solicita atendimento.",
+            "Liste o estado que deve ser preservado para retomar.",
+            "Diferencie a causa assíncrona de uma exceção causada pela instrução."
+          ],
+          "check": {
+            "prompt": "A rotina alterou um registrador que o programa interrompido ainda precisava, sem preservá-lo. Qual risco existe?",
+            "choices": [
+              "O programa pode retomar com um valor incorreto.",
+              "O evento nunca aconteceu.",
+              "A RAM passa a ser não volátil.",
+              "O número de endereços dobra automaticamente."
+            ],
+            "correct": 0,
+            "explanation": "A retomada depende do contexto necessário. Alterar um registrador relevante sem preservação pode corromper o cálculo anterior."
+          }
+        },
+        {
+          "id": "1.3.29",
+          "title": "DMA: transferir blocos sem copiar byte a byte",
+          "subtitle": "A CPU configura o trabalho e acompanha sua conclusão.",
+          "minutes": 7,
+          "objectives": [
+            "Relacionar DMA, controlador, memória e necessidade de sincronização."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "Acesso direto à memória, DMA, permite a um controlador realizar transferências de dados sem a CPU executar uma instrução de cópia para cada byte. A CPU ou o software responsável configura origem, destino, tamanho e condições; o mecanismo de transferência utiliza a interconexão e a memória.\n\nEnquanto o bloco é transferido, a CPU pode realizar outro trabalho, se o sistema permitir. Isso não torna a transferência instantânea ou gratuita: ela consome largura de banda e precisa respeitar acesso à memória, proteção e regras de visibilidade.\n\nAntes de usar o bloco recebido, o programa precisa saber que a transferência terminou e que os dados estão disponíveis corretamente. Uma interrupção pode comunicar a conclusão. Sistemas com cache podem exigir mecanismos de coerência ou manutenção; esses detalhes pertencem ao projeto e ao driver."
+            },
+            {
+              "kind": "example",
+              "title": "Um bloco de oito bytes",
+              "text": "Destino: RAM[128] a RAM[135].\nQuantidade: 8 bytes.\nSoftware configura a transferência.\nControlador move o bloco.\nUma condição de conclusão é sinalizada.\nO programa então utiliza os dados válidos.\n\nConfigurar não significa já ter terminado."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "DMA reduz a participação da CPU na cópia de cada byte, mas não elimina configuração, sincronização, limites de memória nem o custo da transferência."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Uma transferência de oito bytes começa no endereço 128. Liste o último endereço usado e explique por que ler o bloco imediatamente após a configuração pode ser incorreto."
+            }
+          ],
+          "guide": [
+            "Defina origem, destino e quantidade.",
+            "Conte o intervalo de endereços sem acrescentar um byte extra.",
+            "Espere a conclusão e a visibilidade correta antes de consumir o bloco."
+          ],
+          "check": {
+            "prompt": "Oito bytes a partir do endereço 128 ocupam qual intervalo?",
+            "choices": [
+              "0 a 128.",
+              "Somente 128.",
+              "128 a 136, inclusive.",
+              "128 a 135, inclusive."
+            ],
+            "correct": 3,
+            "explanation": "São 128, 129, 130, 131, 132, 133, 134 e 135: oito posições."
+          }
+        },
+        {
+          "id": "1.3.30",
+          "title": "O que significam 32 e 64 bits?",
+          "subtitle": "Largura de registradores, endereçamento e formato de instrução precisam ser separados.",
+          "minutes": 7,
+          "objectives": [
+            "Interpretar a largura de uma arquitetura sem deduzir velocidade ou RAM instalada a partir dela."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "Em uma ISA, 32 ou 64 bits frequentemente se refere à largura dos registradores gerais e de operações inteiras fundamentais. Por exemplo, RV32I e RV64I do RISC-V definem registradores inteiros de 32 e 64 bits, respectivamente. Isso não quer dizer que cada instrução ocupe a mesma quantidade de bits de um registrador.\n\nEm um modelo de endereçamento por byte, 32 bits de endereço oferecem 2^32 posições: 4 GiB de espaço diretamente identificável por esses endereços. Esse cálculo não informa sozinho a RAM física instalada, o espaço disponível a uma aplicação nem todos os mecanismos do sistema. Endereçamento virtual e físico serão estudados depois.\n\nUm equipamento de 64 bits não precisa implementar todos os 64 bits possíveis para endereços físicos ou virtuais. Sua velocidade também depende da tarefa, do núcleo, da memória, do software e de outros fatores. O rótulo 64 bits não garante o dobro do desempenho."
+            },
+            {
+              "kind": "example",
+              "title": "Uma conta de espaço, não de velocidade",
+              "text": "Modelo plano, por byte, com endereços de 32 bits:\n2^32 = 4.294.967.296 posições.\nIsso corresponde a 4 GiB.\n\nEssa conta não diz:\nquanto de RAM está instalado;\nqual parte uma aplicação pode usar;\nquanto tempo levará uma soma."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "Não confunda largura de registrador, tamanho de instrução, quantidade de registradores e largura dos enlaces físicos."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Explique por que trocar 32 por 64 no nome da arquitetura não basta para comparar dois computadores. Liste informações de hardware e da tarefa que você precisaria conhecer."
+            }
+          ],
+          "guide": [
+            "Identifique exatamente qual largura está sendo descrita.",
+            "Faça a conta de endereços somente com as hipóteses declaradas.",
+            "Separe capacidade teórica, recursos implementados e desempenho."
+          ],
+          "check": {
+            "prompt": "Num modelo por byte com 32 bits de endereço, quantas posições podem ser identificadas?",
+            "choices": [
+              "32 posições.",
+              "2^32 posições, correspondentes a 4 GiB.",
+              "64 posições.",
+              "2^64 posições necessariamente."
+            ],
+            "correct": 1,
+            "explanation": "Cada endereço de 32 bits possui uma de 2^32 combinações. Um byte por posição resulta em 4 GiB nesse modelo."
+          }
+        },
+        {
+          "id": "1.3.31",
+          "title": "ISA: o contrato que o código de máquina segue",
+          "subtitle": "Operações e formatos definidos conectam software e processador.",
+          "minutes": 7,
+          "objectives": [
+            "Distinguir conjunto de instruções de implementação e decodificar um formato didático."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "ISA significa arquitetura do conjunto de instruções. Ela define o que o código de máquina pode solicitar e como essas solicitações são representadas: operações, registradores visíveis, formatos, regras de acesso e mudanças de fluxo, entre outros aspectos.\n\nDois processadores podem implementar a mesma ISA de maneiras internas diferentes. Ter mais cache ou executar várias instruções em paralelo pode mudar desempenho sem alterar o significado de uma operação compatível. Compatibilidade de um aplicativo também envolve extensões, ambiente, convenções e sistema, não apenas o nome da ISA.\n\nNo nosso contrato didático, ADD usa quatro bytes: opcode 0x03, destino, primeira fonte e segunda fonte. Os números de registradores válidos são 0 a 3. Assim, 03 02 00 01 define R2 como a soma de R0 e R1. Esses bytes pertencem à nossa máquina fictícia, não a ARM, x86 ou RISC-V."
+            },
+            {
+              "kind": "example",
+              "title": "Um formato com significado definido",
+              "text": "03 02 00 01 (hexadecimal)\n03: operação ADD.\n02: destino R2.\n00: fonte R0.\n01: fonte R1.\n\nCom R0=7 e R1=5, R2 recebe 12.\nUma ISA diferente não precisa interpretar\nesses bytes da mesma maneira."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "Código de máquina de uma ISA não é diretamente universal. Tradução, recompilação e máquinas virtuais serão retomadas na unidade 1.4."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Decodifique 03 03 02 01 no formato definido. Use R2 = 4 e R1 = 6 para prever o destino e o valor. Explique por que aumentar a cache não deveria mudar a soma correta."
+            }
+          ],
+          "guide": [
+            "Consulte o formato antes de interpretar os bytes.",
+            "Identifique opcode, destino e fontes.",
+            "Separe significado da instrução de detalhes internos de execução."
+          ],
+          "check": {
+            "prompt": "03 03 02 01 significa qual operação no formato didático?",
+            "choices": [
+              "Carregar R0 do endereço 3.",
+              "Somar R2 e R1 e guardar em R3.",
+              "Gravar um arquivo de três bytes.",
+              "Mudar obrigatoriamente o PC para 3."
+            ],
+            "correct": 1,
+            "explanation": "O formato ADD é opcode, destino, fonte 1 e fonte 2. O destino é R3; as fontes são R2 e R1."
+          }
+        },
+        {
+          "id": "1.3.32",
+          "title": "Projeto: da entrada ao resultado visível",
+          "subtitle": "Integre CPU, memória, barramento e um dispositivo de saída.",
+          "minutes": 9,
+          "objectives": [
+            "Rastrear um programa completo com entrada mapeada, cálculo, memória e saída.",
+            "Localizar a primeira divergência entre um resultado previsto e o observado."
+          ],
+          "blocks": [
+            {
+              "kind": "text",
+              "title": "A ideia central",
+              "text": "Conclua a unidade acompanhando uma pequena máquina completa. Use a CPU de estudo sem cache neste exercício: instruções de 4 bytes, R0 a R3 de 8 bits e avanço sequencial do PC em 4. A entrada fictícia no endereço 240 fornece 9; RAM[128] guarda 3; RAM[130] começa em zero. O dispositivo no endereço 241 aceita um byte para mostrar seu valor numérico.\n\nO programa lê a entrada, lê o dado de trabalho, soma e guarda o resultado tanto na RAM quanto na interface de saída. A primeira escrita conserva um valor de trabalho; a segunda comunica com o dispositivo. Nenhuma delas grava um arquivo persistente neste modelo.\n\nAntes de executar, faça sua previsão. Depois acompanhe fontes, operação da ALU, destinos e PC. Se surgir um valor incorreto, encontre a primeira instrução em que o estado diverge. Corrigir apenas o que aparece no visor pode esconder uma leitura ou escolha de registrador errada."
+            },
+            {
+              "kind": "example",
+              "title": "O percurso completo",
+              "text": "PC   Instrução de estudo\n0    LOAD R0, [240]       -> R0=9\n4    LOAD R1, [128]       -> R1=3\n8    ADD R2, R0, R1       -> R2=12\n12   STORE [130], R2     -> RAM[130]=12\n16   STORE [241], R2     -> indicador recebe 12\n20   HALT                -> simulação parada\n\nPC após cada passo: 4, 8, 12, 16, 20, 20.\nRAM[128] continua 3; R0 e R1 conservam 9 e 3."
+            },
+            {
+              "kind": "callout",
+              "title": "Ponto de atenção",
+              "text": "O indicador recebe um valor numérico pela interface fictícia. Desenhar caracteres em uma tela real envolve outras etapas e componentes."
+            },
+            {
+              "kind": "practice",
+              "title": "Agora é sua vez",
+              "text": "Execute com o dado de RAM[128] trocado para 4 e confira o resultado 13. Depois introduza o erro STORE [241], R1: preveja o que o indicador receberá, compare com RAM[130] e localize a origem da diferença. Finalize explicando oralmente todo o caminho de uma instrução e faça a revisão."
+            }
+          ],
+          "guide": [
+            "Anote entradas, registradores e memória antes da execução.",
+            "Busque e interprete uma instrução de cada vez.",
+            "Atualize apenas os destinos autorizados e o PC.",
+            "Separe resultado em RAM, comunicação com saída e gravação persistente."
+          ],
+          "check": {
+            "prompt": "Com entrada 9 e RAM[128]=3, qual par é esperado depois das duas escritas corretas?",
+            "choices": [
+              "RAM[130]=3 e indicador=9.",
+              "RAM[130]=241 e indicador=130.",
+              "RAM[130]=0 e indicador=0.",
+              "RAM[130]=12 e indicador=12."
+            ],
+            "correct": 3,
+            "explanation": "O programa calcula 9 + 3 em R2 e copia 12 para a RAM de resultado e para a interface de saída."
+          }
+        }
+      ],
+      "quiz": [
+        {
+          "id": "1.3-revisao-1",
+          "lessonId": "1.3.1",
+          "prompt": "Um programa calculou uma média e deixou o resultado apenas na RAM. O que falta para manter esse resultado após desligar?",
+          "choices": [
+            "Aumentar o clock.",
+            "Colocá-lo no contador de programa.",
+            "Gravá-lo em armazenamento não volátil.",
+            "Trocar sua representação por hexadecimal."
+          ],
+          "correct": 2,
+          "explanation": "Mudar clock ou base numérica não torna a RAM persistente. O programa precisa realizar a gravação e verificar sua conclusão."
+        },
+        {
+          "id": "1.3-revisao-2",
+          "lessonId": "1.3.2",
+          "prompt": "Em uma memória de programa armazenado, por que um grupo de bits pode ser tratado como instrução?",
+          "choices": [
+            "Porque a RAM sabe português.",
+            "Porque ele é buscado e interpretado segundo as regras da CPU.",
+            "Porque todo byte é sempre uma soma.",
+            "Porque seu endereço é necessariamente zero."
+          ],
+          "correct": 1,
+          "explanation": "O papel dos bits depende do acesso e da interpretação definida pela arquitetura, não de uma capacidade da RAM de compreender o programa."
+        },
+        {
+          "id": "1.3-revisao-3",
+          "lessonId": "1.3.3",
+          "prompt": "Em um espaço com 256 posições numeradas a partir de zero, qual é o último endereço?",
+          "choices": [
+            "128.",
+            "255.",
+            "256.",
+            "257."
+          ],
+          "correct": 1,
+          "explanation": "As posições são 0 a 255: há 256 endereços, mas o maior número é 255."
+        },
+        {
+          "id": "1.3-revisao-4",
+          "lessonId": "1.3.4",
+          "prompt": "Uma tarefa possui etapas estritamente dependentes. Dobrar o número de núcleos garante metade do tempo?",
+          "choices": [
+            "Sim, em qualquer programa.",
+            "Sim, porque desaparecem os acessos à memória.",
+            "Sim, mesmo sem dividir o trabalho.",
+            "Não; dependências e outros limites podem impedir esse ganho."
+          ],
+          "correct": 3,
+          "explanation": "Paralelismo exige trabalho divisível e recursos disponíveis. Dependências continuam impondo ordem às etapas."
+        },
+        {
+          "id": "1.3-revisao-5",
+          "lessonId": "1.3.5",
+          "prompt": "A ALU produziu um resultado, mas o destino não recebeu autorização de escrita. Em um modelo com escrita habilitada, o que ocorre?",
+          "choices": [
+            "O destino conserva seu valor anterior.",
+            "O destino obrigatoriamente recebe o resultado.",
+            "Todos os bytes da RAM são apagados.",
+            "O resultado vira automaticamente uma interrupção."
+          ],
+          "correct": 0,
+          "explanation": "Produzir um valor e gravá-lo são ações diferentes. O registrador só captura o resultado conforme suas regras de habilitação e clock."
+        },
+        {
+          "id": "1.3-revisao-6",
+          "lessonId": "1.3.6",
+          "prompt": "Qual é o resultado de 00000111 AND 00000101?",
+          "choices": [
+            "11111111.",
+            "00001100.",
+            "00000010.",
+            "00000101."
+          ],
+          "correct": 3,
+          "explanation": "AND produz 1 apenas nas posições em que os dois operandos têm 1; o resultado é 5."
+        },
+        {
+          "id": "1.3-revisao-7",
+          "lessonId": "1.3.7",
+          "prompt": "Uma soma colocou 12 em R2. Para copiar esse resultado para a RAM, qual ação ainda é necessária no modelo?",
+          "choices": [
+            "Buscar novamente qualquer instrução.",
+            "Mudar o nome do registrador.",
+            "Executar uma escrita no endereço de destino.",
+            "Desligar o equipamento."
+          ],
+          "correct": 2,
+          "explanation": "A escrita na RAM é uma operação explícita, diferente da gravação de um resultado em um registrador."
+        },
+        {
+          "id": "1.3-revisao-8",
+          "lessonId": "1.3.8",
+          "prompt": "Uma soma deixou R2 = 12 e a próxima instrução está no endereço 16. Quais valores são coerentes?",
+          "choices": [
+            "PC = 12 e R2 = 16 obrigatoriamente.",
+            "PC = 16 e R2 = 12.",
+            "A RAM deve ser apagada.",
+            "PC e R2 precisam ser iguais."
+          ],
+          "correct": 1,
+          "explanation": "PC e R2 cumprem papéis diferentes. O endereço da próxima busca não precisa coincidir com o resultado da soma."
+        },
+        {
+          "id": "1.3-revisao-9",
+          "lessonId": "1.3.9",
+          "prompt": "Uma CPU não possui flags de comparação, mas tem instruções que comparam registradores. Ela pode realizar decisões condicionais?",
+          "choices": [
+            "Não, comparações sempre exigem a mesma flag.",
+            "Não, pois só a RAM pode decidir.",
+            "Sim, a ISA pode definir decisões sem flags dedicadas.",
+            "Sim, mas somente se desligar o clock."
+          ],
+          "correct": 2,
+          "explanation": "A organização dos indicadores varia. Há ISAs que realizam desvios comparando diretamente valores de registradores."
+        },
+        {
+          "id": "1.3-revisao-10",
+          "lessonId": "1.3.10",
+          "prompt": "Ao buscar uma instrução LOAD no endereço 0, a CPU já realizou obrigatoriamente a leitura do operando no endereço 128?",
+          "choices": [
+            "Sim, porque registradores são arquivos.",
+            "Sim, porque toda busca soma valores.",
+            "Não; buscar a instrução e executar seu acesso ao dado são ações distintas.",
+            "Sim, porque os endereços são iguais."
+          ],
+          "correct": 2,
+          "explanation": "O conteúdo da instrução informa qual acesso deverá ocorrer. A leitura do operando pertence à execução definida para LOAD."
+        },
+        {
+          "id": "1.3-revisao-11",
+          "lessonId": "1.3.11",
+          "prompt": "No formato LOAD, o campo de endereço é 0x82. Qual endereço decimal será acessado?",
+          "choices": [
+            "2.",
+            "128.",
+            "82.",
+            "130."
+          ],
+          "correct": 3,
+          "explanation": "0x82 corresponde a 8 × 16 + 2 = 130. O valor guardado nesse endereço pode ser qualquer byte permitido."
+        },
+        {
+          "id": "1.3-revisao-12",
+          "lessonId": "1.3.12",
+          "prompt": "Uma instrução STORE [130], R2 foi concluída com R2 = 13. Qual descrição está correta?",
+          "choices": [
+            "R2 recebe o número 130.",
+            "Memória[130] recebe 13 e R2 continua com 13.",
+            "O PC passa obrigatoriamente a 130.",
+            "Todos os endereços recebem 13."
+          ],
+          "correct": 1,
+          "explanation": "STORE copia o valor de R2 para o endereço indicado. Não é um salto nem uma escrita em toda a memória."
+        },
+        {
+          "id": "1.3-revisao-13",
+          "lessonId": "1.3.13",
+          "prompt": "No mesmo programa, as entradas são 6 e 9. Após a soma e antes de STORE, quais valores são esperados?",
+          "choices": [
+            "R2=0 e memória[130]=15.",
+            "R2=15 e memória[130]=0.",
+            "PC=130 e R2=16.",
+            "R2=6 e memória[130]=9."
+          ],
+          "correct": 1,
+          "explanation": "A soma já alterou R2 para 15, mas a memória de resultado ainda aguarda a instrução STORE."
+        },
+        {
+          "id": "1.3-revisao-14",
+          "lessonId": "1.3.14",
+          "prompt": "O que uma instrução JMP 0 faz na CPU de estudo?",
+          "choices": [
+            "Apaga memória[0].",
+            "Escolhe o endereço 0 para a próxima busca.",
+            "Coloca obrigatoriamente zero em todos os registradores.",
+            "Desliga permanentemente o chip."
+          ],
+          "correct": 1,
+          "explanation": "JMP modifica o fluxo de controle ao escolher o próximo PC. Não é uma escrita na memória."
+        },
+        {
+          "id": "1.3-revisao-15",
+          "lessonId": "1.3.15",
+          "prompt": "Qual afirmação sobre DRAM e SRAM é correta?",
+          "choices": [
+            "SRAM e ROM são o mesmo nome para a mesma função.",
+            "DRAM permanece intacta sem energia por definição.",
+            "DRAM exige refresh; SRAM não exige esse refresh enquanto alimentada.",
+            "SRAM só existe em SSDs."
+          ],
+          "correct": 2,
+          "explanation": "As tecnologias guardam os bits de maneiras diferentes. Refresh é característico da DRAM, enquanto a SRAM mantém seu estado enquanto alimentada."
+        },
+        {
+          "id": "1.3-revisao-16",
+          "lessonId": "1.3.16",
+          "prompt": "Por que a memória volátil de uma execução anterior não é uma base confiável para iniciar após desligar?",
+          "choices": [
+            "Porque todo endereço é hexadecimal.",
+            "Porque a CPU precisa sempre de internet.",
+            "Porque o PC não existe.",
+            "Porque seus valores não são conservados de forma confiável sem energia."
+          ],
+          "correct": 3,
+          "explanation": "O código inicial precisa estar disponível por um mecanismo definido, sem depender da conservação dos dados temporários antigos."
+        },
+        {
+          "id": "1.3-revisao-17",
+          "lessonId": "1.3.17",
+          "prompt": "Qual combinação descreve corretamente funções da hierarquia?",
+          "choices": [
+            "Todo acesso começa obrigatoriamente no SSD.",
+            "RAM e flash sempre cumprem exatamente a mesma função.",
+            "Registradores sustentam operações próximas; RAM mantém trabalho; armazenamento conserva arquivos.",
+            "Registrador conserva todos os arquivos; SSD executa somas."
+          ],
+          "correct": 2,
+          "explanation": "Os níveis atendem a funções e custos diferentes. O percurso concreto depende do acesso e do estado do sistema."
+        },
+        {
+          "id": "1.3-revisao-18",
+          "lessonId": "1.3.18",
+          "prompt": "Qual afirmação sobre L1, L2 e L3 é adequada?",
+          "choices": [
+            "Toda CPU tem exatamente três níveis.",
+            "L3 é obrigatoriamente privada de um só núcleo em todos os chips.",
+            "L1 sempre guarda apenas arquivos completos.",
+            "A quantidade, divisão e compartilhamento dos níveis dependem do projeto."
+          ],
+          "correct": 3,
+          "explanation": "Esses nomes indicam níveis, mas não fixam uma única organização física válida para todo processador."
+        },
+        {
+          "id": "1.3-revisao-19",
+          "lessonId": "1.3.19",
+          "prompt": "Com cache vazia, blocos de 4 bytes e sem expulsões, quantos misses ocorrem em 128, 130, 131, 128?",
+          "choices": [
+            "Um.",
+            "Quatro.",
+            "Três.",
+            "Zero."
+          ],
+          "correct": 0,
+          "explanation": "A primeira leitura traz o bloco 128 a 131. Os outros três acessos encontram esse mesmo bloco."
+        },
+        {
+          "id": "1.3-revisao-20",
+          "lessonId": "1.3.20",
+          "prompt": "Com os mesmos custos e taxa de miss de 10%, qual é o tempo médio?",
+          "choices": [
+            "44 ciclos.",
+            "8 ciclos.",
+            "14 ciclos.",
+            "40 ciclos."
+          ],
+          "correct": 1,
+          "explanation": "A média é 4 + 0,10 × 40 = 8 ciclos por acesso neste modelo serializado."
+        },
+        {
+          "id": "1.3-revisao-21",
+          "lessonId": "1.3.21",
+          "prompt": "Em uma leitura iniciada pela CPU, qual informação a memória devolve normalmente?",
+          "choices": [
+            "A intenção de quem escreveu o programa.",
+            "O endereço inicial de todo arquivo do SSD.",
+            "Sempre o número de núcleos.",
+            "O conteúdo do endereço solicitado."
+          ],
+          "correct": 3,
+          "explanation": "Na leitura, a CPU informa qual posição deseja e recebe o valor que ela contém."
+        },
+        {
+          "id": "1.3-revisao-22",
+          "lessonId": "1.3.22",
+          "prompt": "Um enlace transporta 32 bits úteis por transferência. Quantos bytes úteis isso representa?",
+          "choices": [
+            "8 bytes.",
+            "1 byte.",
+            "32 bytes.",
+            "4 bytes."
+          ],
+          "correct": 3,
+          "explanation": "Um byte tem 8 bits; portanto, 32 / 8 = 4 bytes. A largura de endereços é outra característica."
+        },
+        {
+          "id": "1.3-revisao-23",
+          "lessonId": "1.3.23",
+          "prompt": "Por que não é correto assumir uma instrução completa por pulso de clock em toda CPU?",
+          "choices": [
+            "Porque a RAM sempre executa o programa sozinha.",
+            "Porque cada endereço representa uma hora.",
+            "Porque execução e acessos podem envolver múltiplos ciclos ou etapas sobrepostas.",
+            "Porque instruções nunca usam clock."
+          ],
+          "correct": 2,
+          "explanation": "Há diferentes projetos e custos de memória. Frequência do clock não determina sozinha o número de instruções concluídas."
+        },
+        {
+          "id": "1.3-revisao-24",
+          "lessonId": "1.3.24",
+          "prompt": "Um enlace de 16 bits úteis faz 100 milhões de transferências por segundo. Qual é sua taxa ideal decimal?",
+          "choices": [
+            "800 MB/s.",
+            "100 bytes/s.",
+            "16 MB/s.",
+            "200 MB/s."
+          ],
+          "correct": 3,
+          "explanation": "16 bits são 2 bytes; 2 × 100 milhões = 200 milhões de bytes por segundo."
+        },
+        {
+          "id": "1.3-revisao-25",
+          "lessonId": "1.3.25",
+          "prompt": "Medidas chegam mais rápido do que o programa as lê, e o buffer tem capacidade finita. Qual problema pode surgir?",
+          "choices": [
+            "Transformação do buffer em ROM sem energia.",
+            "Aumento automático e infinito do buffer.",
+            "Mudança automática do conjunto de instruções.",
+            "Perda de dados ou necessidade de controlar o fluxo."
+          ],
+          "correct": 3,
+          "explanation": "Buffers possuem limites. O projeto precisa considerar ritmo de produção, consumo e tratamento de condições de cheio."
+        },
+        {
+          "id": "1.3-revisao-26",
+          "lessonId": "1.3.26",
+          "prompt": "Por que um endereço mapeado para dispositivo exige atenção diferente de RAM comum?",
+          "choices": [
+            "Porque ele sempre é um arquivo permanente.",
+            "Porque uma leitura ou escrita pode disparar efeitos definidos pelo periférico.",
+            "Porque todo acesso deve ser uma soma.",
+            "Porque não pode conter bits."
+          ],
+          "correct": 1,
+          "explanation": "A interface pode consumir eventos, iniciar operações ou alterar estado do hardware. Seu comportamento depende do mapa e do protocolo."
+        },
+        {
+          "id": "1.3-revisao-27",
+          "lessonId": "1.3.27",
+          "prompt": "Em consultas periódicas ideais, aumentar o intervalo tende a produzir qual troca?",
+          "choices": [
+            "Menos consultas por segundo, mas possível demora maior para detectar o evento.",
+            "Garantia de que nenhum buffer ficará cheio.",
+            "Mais consultas por segundo e detecção sempre imediata.",
+            "Eliminação de qualquer custo de E/S."
+          ],
+          "correct": 0,
+          "explanation": "Um evento que ocorre entre duas consultas espera até a próxima. Espaçar consultas reduz sua quantidade, mas pode aumentar essa espera."
+        },
+        {
+          "id": "1.3-revisao-28",
+          "lessonId": "1.3.28",
+          "prompt": "Qual par exemplifica interrupção assíncrona e exceção síncrona, respectivamente?",
+          "choices": [
+            "Dois arquivos gravados em SSD.",
+            "Evento de temporizador e execução de uma instrução inválida.",
+            "Duas somas válidas sem evento.",
+            "Um cache hit e uma mudança de cor na tela, obrigatoriamente."
+          ],
+          "correct": 1,
+          "explanation": "O temporizador pode sinalizar independentemente da instrução corrente; uma instrução inválida é uma causa ligada à execução."
+        },
+        {
+          "id": "1.3-revisao-29",
+          "lessonId": "1.3.29",
+          "prompt": "Depois de configurar um DMA de entrada, qual atitude é adequada antes de usar todo o bloco?",
+          "choices": [
+            "Tratar todos os bytes como instruções HALT.",
+            "Apagar obrigatoriamente o PC.",
+            "Confirmar a conclusão e as condições de visibilidade dos dados.",
+            "Presumir que a configuração copiou tudo instantaneamente."
+          ],
+          "correct": 2,
+          "explanation": "A transferência pode continuar em andamento. Conclusão e visibilidade correta são necessárias para consumir dados válidos."
+        },
+        {
+          "id": "1.3-revisao-30",
+          "lessonId": "1.3.30",
+          "prompt": "Qual conclusão é válida apenas a partir do rótulo “CPU de 64 bits”?",
+          "choices": [
+            "Toda instrução obrigatoriamente terá 64 bits.",
+            "Não é possível concluir, por esse rótulo sozinho, que toda tarefa será duas vezes mais rápida.",
+            "Todo programa terá o dobro da velocidade.",
+            "O aparelho possui exatamente 64 GiB de RAM."
+          ],
+          "correct": 1,
+          "explanation": "O rótulo não determina desempenho, formato de todas as instruções nem quantidade de RAM instalada."
+        },
+        {
+          "id": "1.3-revisao-31",
+          "lessonId": "1.3.31",
+          "prompt": "Dois chips compatíveis com a mesma ISA possuem caches diferentes. Qual diferença é possível?",
+          "choices": [
+            "Nenhum código de máquina pode funcionar nos dois.",
+            "Os registradores deixam de existir por definição.",
+            "A soma correta necessariamente vira outra operação.",
+            "O tempo de execução pode mudar mantendo o significado das instruções compatíveis."
+          ],
+          "correct": 3,
+          "explanation": "A implementação interna influencia desempenho. O significado das instruções compatíveis continua definido pela ISA."
+        },
+        {
+          "id": "1.3-revisao-32",
+          "lessonId": "1.3.32",
+          "prompt": "A soma correta deixou R2=12 e R1=3, mas a saída usou STORE [241], R1. O que o indicador recebe?",
+          "choices": [
+            "3, porque a escrita usa o registrador R1.",
+            "Nada, pois toda STORE é um salto.",
+            "130, porque esse era o endereço da outra escrita.",
+            "12, porque ele escolhe o maior registrador."
+          ],
+          "correct": 0,
+          "explanation": "A instrução de saída selecionou a fonte errada. A ALU pode estar correta, enquanto a transferência para o dispositivo envia 3."
+        }
+      ],
+      "glossary": [
+        {
+          "term": "Arquitetura de computadores",
+          "definition": "Descrição de funções, recursos e relações que permitem a um computador representar e executar operações."
+        },
+        {
+          "term": "Programa armazenado",
+          "definition": "Programa cujas instruções estão representadas em memória e podem ser buscadas pela máquina."
+        },
+        {
+          "term": "Modelo de von Neumann",
+          "definition": "Modelo de programa armazenado em que instruções e dados compartilham memória e espaço de endereços."
+        },
+        {
+          "term": "CPU",
+          "definition": "Unidade central de processamento que executa instruções e coordena suas operações de acordo com a arquitetura."
+        },
+        {
+          "term": "Núcleo",
+          "definition": "Unidade de execução de um processador com recursos para executar um fluxo de instruções; seu projeto concreto varia."
+        },
+        {
+          "term": "SoC",
+          "definition": "Sistema em um chip, que pode integrar CPU, controladores, interfaces e outros blocos."
+        },
+        {
+          "term": "Unidade de controle",
+          "definition": "Parte do processador que coordena operações e transferências por sinais de controle."
+        },
+        {
+          "term": "ALU",
+          "definition": "Unidade lógica e aritmética que transforma operandos segundo a operação selecionada."
+        },
+        {
+          "term": "Operando",
+          "definition": "Valor utilizado como entrada de uma operação."
+        },
+        {
+          "term": "Registrador",
+          "definition": "Elemento de armazenamento diretamente associado à operação da CPU; tipo, largura e papel dependem da arquitetura."
+        },
+        {
+          "term": "PC",
+          "definition": "Contador de programa que participa da seleção do endereço de instrução. Na simulação, observamos o endereço a buscar no início do passo."
+        },
+        {
+          "term": "IR",
+          "definition": "Registrador de instrução usado em um modelo simples para conservar a instrução em andamento; não é uma descrição universal de todo chip."
+        },
+        {
+          "term": "Flag",
+          "definition": "Indicador de estado ou resultado, como zero ou carry, quando a arquitetura o define."
+        },
+        {
+          "term": "Estado da CPU",
+          "definition": "Conjunto de valores guardados relevantes para explicar a execução e sua continuidade, conforme o nível de observação."
+        },
+        {
+          "term": "Ciclo de instrução",
+          "definition": "Sequência conceitual de buscar, decodificar e executar uma instrução, com atualizações de estado definidas."
+        },
+        {
+          "term": "Endereço",
+          "definition": "Identificador de uma posição dentro de um espaço de acesso; não se confunde com o valor guardado nela."
+        },
+        {
+          "term": "Endereçamento por byte",
+          "definition": "Organização em que cada endereço seleciona um byte."
+        },
+        {
+          "term": "RAM",
+          "definition": "Memória de acesso por posição, utilizada como espaço de trabalho; a RAM principal típica é volátil."
+        },
+        {
+          "term": "DRAM",
+          "definition": "RAM dinâmica que precisa de renovação periódica, ou refresh, para manter os bits enquanto alimentada."
+        },
+        {
+          "term": "SRAM",
+          "definition": "RAM estática que mantém o estado enquanto alimentada sem o refresh característico da DRAM; é comum em caches."
+        },
+        {
+          "term": "ROM",
+          "definition": "Memória utilizada como somente leitura no contexto definido; tecnologias e formas de programação podem variar."
+        },
+        {
+          "term": "Flash",
+          "definition": "Memória não volátil apagável e reprogramável sob regras específicas, usada em armazenamento e firmware."
+        },
+        {
+          "term": "Firmware",
+          "definition": "Software associado a funções próximas ao hardware, frequentemente conservado em memória não volátil."
+        },
+        {
+          "term": "Inicialização",
+          "definition": "Sequência definida pelo sistema para começar a execução, preparar recursos e carregar os componentes necessários."
+        },
+        {
+          "term": "Volatilidade",
+          "definition": "Característica de não conservar de forma confiável os dados de trabalho sem energia."
+        },
+        {
+          "term": "Hierarquia de memória",
+          "definition": "Organização de níveis com diferentes tempos de acesso, capacidades, custos e funções."
+        },
+        {
+          "term": "Cache",
+          "definition": "Armazenamento de blocos reutilizáveis que pode atender acessos com menor custo do que um nível mais distante."
+        },
+        {
+          "term": "L1, L2 e L3",
+          "definition": "Nomes de níveis de cache; existência, divisão e compartilhamento dependem do processador."
+        },
+        {
+          "term": "Cache hit",
+          "definition": "Consulta que encontra o bloco válido procurado no nível de cache examinado."
+        },
+        {
+          "term": "Cache miss",
+          "definition": "Consulta que não encontra o bloco válido no nível examinado e exige atendimento conforme a hierarquia."
+        },
+        {
+          "term": "Localidade temporal",
+          "definition": "Tendência de voltar a utilizar uma informação em um intervalo próximo de tempo."
+        },
+        {
+          "term": "Localidade espacial",
+          "definition": "Tendência de utilizar posições próximas no espaço de endereços."
+        },
+        {
+          "term": "Bloco de cache",
+          "definition": "Grupo de bytes tratado como unidade de armazenamento e transferência pela cache definida."
+        },
+        {
+          "term": "Penalidade de miss",
+          "definition": "Custo adicional ou total associado a uma falta de cache, conforme a medida explicitamente definida."
+        },
+        {
+          "term": "Barramento",
+          "definition": "Meio de comunicação entre componentes; modelos clássicos distinguem funções de endereço, dados e controle."
+        },
+        {
+          "term": "Barramento de endereço",
+          "definition": "Função ou caminho que identifica a posição ou destino de um acesso."
+        },
+        {
+          "term": "Barramento de dados",
+          "definition": "Função ou caminho que transporta o valor de uma transferência."
+        },
+        {
+          "term": "Barramento de controle",
+          "definition": "Função ou sinais que especificam operação, validade e condições de uma transferência."
+        },
+        {
+          "term": "Latência",
+          "definition": "Tempo para uma resposta ou conclusão, de acordo com o início e o fim definidos na medição."
+        },
+        {
+          "term": "Largura de banda",
+          "definition": "Quantidade de dados transferida por unidade de tempo sob condições declaradas."
+        },
+        {
+          "term": "Controlador de dispositivo",
+          "definition": "Componente que oferece e organiza a interface de um dispositivo com o sistema."
+        },
+        {
+          "term": "E/S mapeada em memória",
+          "definition": "Organização que associa endereços a registradores de dispositivos, com efeitos definidos pela interface."
+        },
+        {
+          "term": "Polling",
+          "definition": "Consulta ao estado de uma interface para verificar se uma condição ocorreu; a estratégia de espera pode variar."
+        },
+        {
+          "term": "Interrupção",
+          "definition": "Solicitação de atendimento que pode desviar a execução conforme habilitação, prioridade e regras da arquitetura."
+        },
+        {
+          "term": "Contexto de execução",
+          "definition": "Estado necessário para continuar um trabalho corretamente; a preservação envolve os mecanismos definidos de hardware e software."
+        },
+        {
+          "term": "DMA",
+          "definition": "Mecanismo de transferência de dados que evita uma instrução de cópia da CPU para cada byte, mas exige configuração e sincronização."
+        },
+        {
+          "term": "ISA",
+          "definition": "Arquitetura do conjunto de instruções: contrato que define operações e representações acessíveis ao código de máquina."
+        },
+        {
+          "term": "Opcode",
+          "definition": "Código que identifica uma operação dentro do formato de instrução definido pela ISA."
+        }
+      ],
+      "references": [
+        {
+          "title": "Nand2Tetris — integração de CPU, memória e dispositivos",
+          "url": "https://www.nand2tetris.org/project05"
+        },
+        {
+          "title": "RISC-V — RV32I: registradores, instruções e acessos à memória",
+          "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/rv32.html"
+        },
+        {
+          "title": "RISC-V — RV64I e largura dos registradores inteiros",
+          "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/rv64.html"
+        },
+        {
+          "title": "Intel — manuais de arquitetura, memória, interrupções e instruções",
+          "url": "https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html"
+        }
+      ],
+      "chapters": [
+        {
+          "id": "1.3.sistema",
+          "title": "Uma máquina de programa armazenado",
+          "description": "Conecte processamento, memória e dispositivos e distinga endereço de conteúdo.",
+          "lessonIds": [
+            "1.3.1",
+            "1.3.2",
+            "1.3.3",
+            "1.3.4"
+          ]
+        },
+        {
+          "id": "1.3.cpu",
+          "title": "Por dentro da CPU",
+          "description": "Acompanhe controle, ALU, registradores, PC e estado.",
+          "lessonIds": [
+            "1.3.5",
+            "1.3.6",
+            "1.3.7",
+            "1.3.8",
+            "1.3.9"
+          ]
+        },
+        {
+          "id": "1.3.execucao",
+          "title": "Buscar, decodificar e executar",
+          "description": "Rastreie instruções, uma soma completa e mudanças de fluxo.",
+          "lessonIds": [
+            "1.3.10",
+            "1.3.11",
+            "1.3.12",
+            "1.3.13",
+            "1.3.14"
+          ]
+        },
+        {
+          "id": "1.3.memoria",
+          "title": "Memória e hierarquia",
+          "description": "Diferencie RAM, firmware, caches, localidade e custo de acesso.",
+          "lessonIds": [
+            "1.3.15",
+            "1.3.16",
+            "1.3.17",
+            "1.3.18",
+            "1.3.19",
+            "1.3.20"
+          ]
+        },
+        {
+          "id": "1.3.barramentos",
+          "title": "Barramentos e transferências",
+          "description": "Separe endereço, dados, controle, latência e taxa de transferência.",
+          "lessonIds": [
+            "1.3.21",
+            "1.3.22",
+            "1.3.23",
+            "1.3.24"
+          ]
+        },
+        {
+          "id": "1.3.entrada-saida",
+          "title": "Entrada, saída e interrupções",
+          "description": "Entenda controladores, mapeamento, polling, contexto e DMA.",
+          "lessonIds": [
+            "1.3.25",
+            "1.3.26",
+            "1.3.27",
+            "1.3.28",
+            "1.3.29"
+          ]
+        },
+        {
+          "id": "1.3.isa",
+          "title": "32/64 bits e conjuntos de instruções",
+          "description": "Leia as hipóteses de uma arquitetura e integre a unidade em um projeto guiado.",
+          "lessonIds": [
+            "1.3.30",
+            "1.3.31",
+            "1.3.32"
           ]
         }
       ],

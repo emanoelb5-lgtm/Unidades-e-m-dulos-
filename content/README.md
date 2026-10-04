@@ -32,3 +32,9 @@ O campo opcional `lab` pode abrir um laboratório existente: Bits, Bases, Sinal,
 O pacote deve ter até 2 MB. O aplicativo recusa downloads inválidos e atualizações que removam unidades, lições ou versões de revisão existentes. Sem internet, usa o último conteúdo válido salvo no aparelho. As consultas automáticas ao abrir respeitam um intervalo mínimo de uma hora; em segundo plano, são previstas a cada seis horas conforme conexão e bateria. A opção **Verificar agora** permite consultar imediatamente.
 
 Para importar manualmente, baixe o arquivo JSON e abra **Preferências → Importar arquivo**. O catálogo contém as unidades anteriores e a nova unidade, e não apenas o trecho acrescentado.
+
+## Conteúdo versão 4
+
+Inclui 96 lições das unidades 1.1, 1.2 e 1.3. A unidade 1.3 tem 32 lições em sete capítulos, 32 questões de revisão e 48 termos. Os objetos das duas unidades anteriores e a ementa permanecem intactos.
+
+Os comandos LOAD, STORE, ADD, JMP, JZ e HALT nos exemplos de arquitetura pertencem à CPU fictícia definida nas lições. Não os apresente como instruções reais de ARM, x86 ou RISC-V. Preserve suas regras ao editar os exemplos: quatro bytes por instrução, R0 a R3 de 8 bits, endereços de byte de 0 a 255 e resultado de ADD limitado aos 8 bits menos significativos. HALT conserva o PC no endereço da parada.
