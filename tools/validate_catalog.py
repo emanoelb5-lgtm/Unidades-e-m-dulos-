@@ -1,6 +1,7 @@
 """Validate an import package independently from the currently published APK snapshot."""
 import json
 from pathlib import Path
+from validate_activities import validate_catalog_activities
 
 ROOT=Path(__file__).resolve().parents[1]
 def validate(path):
@@ -38,6 +39,7 @@ def validate(path):
         assert len({t['term'].casefold() for t in u['glossary']})==len(u['glossary'])
         assert all(r['url'].startswith('https://') for r in u.get('references',[]))
     assert len(set(all_ids))==len(all_ids),'Lesson IDs must be unique across units'
+    validate_catalog_activities(c)
     return c
 
 if __name__=='__main__':
@@ -61,10 +63,15 @@ if __name__=='__main__':
             assert package['contentVersion']>=previous['contentVersion'],'Não reduza contentVersion.'
             if package!=previous:
                 assert package['contentVersion']>previous['contentVersion'],'Aumente contentVersion quando modificar as lições.'
+            assert not previous.get('interactivePractice') or package.get('interactivePractice'),'Preserve as práticas interativas.'
             for old in previous['units']:
                 current=next((u for u in package['units'] if u['id']==old['id']),None)
                 assert current is not None,'Preserve as unidades anteriores.'
                 assert current['moduleId']==old['moduleId'],'Preserve a unidade no mesmo módulo.'
                 assert current.get('assessmentVersion',1)>=old.get('assessmentVersion',1),'Não reduza assessmentVersion.'
                 assert {l['id'] for l in old['lessons']}<={l['id'] for l in current['lessons']},'Preserve todas as lições publicadas.'
+                by_id={l['id']:l for l in current['lessons']}
+                for lesson in old['lessons']:
+                    a=lesson.get('activity');b=by_id[lesson['id']].get('activity')
+                    if a:assert b and b['id']==a['id'] and b['revision']>=a['revision'],'Preserve a identidade e a revisão das atividades.'
     print(f"Catálogo válido: conteúdo {package['contentVersion']}, {len(package['units'])} unidades, {sum(len(u['lessons']) for u in package['units'])} lições.")
